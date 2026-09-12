@@ -3,7 +3,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-DOMAIN="plasma_applet_io.github.jottacloud-kde"
+DOMAIN="plasma_applet_io.github.oal.jottacloud-kde"
 POT="$ROOT/po/$DOMAIN.pot"
 
 if ! command -v xgettext >/dev/null 2>&1; then

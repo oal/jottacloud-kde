@@ -10,7 +10,7 @@
         "Description": "Shows the status of your Jottacloud sync",
         "Description[nb]": "Viser status for Jottacloud-synkronisering",
         "Icon": "jottacloud",
-        "Id": "io.github.jottacloud-kde",
+        "Id": "io.github.oal.jottacloud-kde",
         "License": "MPL-2.0",
         "Name": "Jottacloud status",
         "Name[nb]": "Jottacloud-status",

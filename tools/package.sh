@@ -3,7 +3,7 @@
 # Build a distributable KPackage archive.
 set -euo pipefail
 
-ID="io.github.jottacloud-kde"
+ID="io.github.oal.jottacloud-kde"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 OUT="$ROOT/dist/$ID.plasmoid"
 

@@ -3,7 +3,7 @@
 # Install or upgrade the widget for the current user. No sudo is required.
 set -euo pipefail
 
-ID="io.github.jottacloud-kde"
+ID="io.github.oal.jottacloud-kde"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 INSTALLED="$HOME/.local/share/plasma/plasmoids/$ID"
 ACTION="auto"

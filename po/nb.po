@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MPL-2.0
 msgid ""
 msgstr ""
-"Project-Id-Version: plasma_applet_io.github.jottacloud-kde\n"
+"Project-Id-Version: plasma_applet_io.github.oal.jottacloud-kde\n"
 "Language: nb\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"

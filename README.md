@@ -66,7 +66,7 @@ QML lint and runtime checks must run on the Plasma host:
 for file in contents/ui/*.qml contents/config/config.qml; do
     qmllint --unqualified disable -I "$(qtpaths6 --query QT_INSTALL_QML)" "$file"
 done
-plasmawindowed io.github.jottacloud-kde
+plasmawindowed io.github.oal.jottacloud-kde
 ```
 
 The executable data engine is intentionally kept in `contents/ui/CliTransport.qml`.
