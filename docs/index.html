@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jottacloud status — a Plasma 6 widget for KDE</title>
-<meta name="description" content="A lightweight KDE Plasma 6 panel widget for the installed jotta-cli. Sync state, storage, transfers, read-only backups, and recent activity at a glance.">
+<title>Jottacloud status — an unofficial KDE Plasma 6 widget</title>
+<meta name="description" content="An unofficial community KDE Plasma 6 panel widget for the installed jotta-cli. Sync state, storage, transfers, read-only backups, and recent activity at a glance. Not affiliated with Jottacloud AS.">
 <meta name="theme-color" content="#1b1e20">
-<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="icon" type="image/svg+xml" href="assets/mark.svg">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Jottacloud status for KDE Plasma">
-<meta property="og:description" content="A lightweight Plasma 6 panel widget for the installed jotta-cli. Sync, storage, transfers, read-only backups, and activity at a glance.">
+<meta property="og:title" content="Jottacloud status — an unofficial KDE Plasma widget">
+<meta property="og:description" content="An unofficial community KDE Plasma 6 widget for the installed jotta-cli. Sync, storage, transfers, read-only backups, and activity at a glance.">
 <meta property="og:url" content="https://oal.github.io/jottacloud-kde/">
 <meta property="og:image" content="https://oal.github.io/jottacloud-kde/screenshots/expanded.png">
 <script>
@@ -35,7 +35,7 @@
 <header class="panel">
     <div class="container panel-inner">
         <a class="brand" href="#top" aria-label="Jottacloud status — back to top">
-            <img class="brand-icon" src="assets/logo.svg" alt="" width="24" height="24">
+            <img class="brand-icon" src="assets/mark.svg" alt="" width="24" height="24">
             <span class="brand-name">Jottacloud status</span>
         </a>
         <nav class="nav" aria-label="Sections">
@@ -57,13 +57,20 @@
     </div>
 </header>
 
+<div class="notice" role="note">
+    <div class="container notice-inner">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 7.5h.01"/></svg>
+        <p>Unofficial community project — not affiliated with, endorsed by, or supported by Jottacloud AS or KDE e.V.</p>
+    </div>
+</div>
+
 <main id="main">
 <section class="hero" id="top">
     <div class="container hero-grid">
         <div class="hero-copy">
-            <p class="eyebrow">Plasma 6 widget · MPL-2.0</p>
-            <h1>Your Jottacloud sync, <span class="accent">at a glance</span>.</h1>
-            <p class="lede">A lightweight KDE Plasma 6 widget for the installed <code>jotta-cli</code>. Keep sync state, storage, transfers, read-only backups, and recent activity visible from your panel — no tokens, no private API.</p>
+            <p class="eyebrow">KDE Plasma 6 widget · MPL-2.0</p>
+            <h1>Your Jottacloud sync in KDE, <span class="accent">at a glance</span>.</h1>
+            <p class="lede">On Linux, Jottacloud ships as a command-line client rather than a desktop app. This widget brings <code>jotta-cli</code> into your KDE Plasma 6 panel: sync state, storage, transfers, read-only backups, and recent activity — no tokens, no private API.</p>
             <div class="hero-actions">
                 <a class="button primary" href="#install">Install the widget</a>
                 <a class="button secondary" href="https://github.com/oal/jottacloud-kde">View on GitHub</a>
@@ -77,24 +84,13 @@
         </div>
         <div class="hero-visual">
             <div class="panel-mock">
-                <img src="assets/logo.svg" alt="" width="26" height="26">
+                <img src="assets/mark.svg" alt="" width="26" height="26">
                 <div class="panel-mock-text">
                     <strong>77% – 720 GiB</strong>
                     <span class="status"><span class="dot ok"></span>Up to date</span>
                 </div>
             </div>
-            <figure class="window">
-                <div class="window-bar">
-                    <img src="assets/logo.svg" alt="" width="16" height="16">
-                    <span class="window-title">Jottacloud status</span>
-                    <span class="window-controls" aria-hidden="true">
-                        <span class="control"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 5h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
-                        <span class="control"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><rect x="1.8" y="1.8" width="6.4" height="6.4" rx="1" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span>
-                        <span class="control close"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.2 2.2l5.6 5.6M7.8 2.2L2.2 7.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
-                    </span>
-                </div>
-                <img class="window-shot" src="screenshots/expanded.png" width="400" height="448" alt="Expanded dashboard showing account, storage, sync, transfers, backups, and recent activity sections.">
-            </figure>
+            <img class="hero-shot" src="screenshots/expanded.png" width="400" height="448" alt="Expanded dashboard showing account, storage, sync, transfers, backups, and recent activity sections.">
             <p class="hero-note">Example data · the dashboard adapts to your panel and desktop.</p>
         </div>
     </div>
@@ -161,34 +157,44 @@
             <h2>See it in your panel</h2>
             <p class="section-lede">The compact view lives in the panel, the dashboard opens on the desktop, and everything in between is configurable.</p>
         </header>
-        <div class="shots">
-            <figure class="shot">
-                <a class="shot-frame panel-frame" href="screenshots/status.png" title="Open full-size screenshot">
-                    <img src="screenshots/status.png" width="136" height="47" alt="Compact panel view showing the Jottacloud logo, 77% usage, 720 GiB, and an up-to-date status." loading="lazy">
-                </a>
-                <figcaption>
-                    <strong>Compact panel view</strong>
-                    <p>Logo, percentage, and sync state at a glance. Choose exactly how much the panel shows.</p>
-                </figcaption>
-            </figure>
-            <figure class="shot">
-                <a class="shot-frame" href="screenshots/expanded.png" title="Open full-size screenshot">
-                    <img src="screenshots/expanded.png" width="400" height="448" alt="Expanded dashboard with account, storage, sync, transfers, backups, and recent activity sections." loading="lazy">
-                </a>
-                <figcaption>
-                    <strong>Expanded dashboard</strong>
-                    <p>Storage, sync progress, transfers, read-only backups, and activity in one popup.</p>
-                </figcaption>
-            </figure>
-            <figure class="shot">
-                <a class="shot-frame" href="screenshots/settings.png" title="Open full-size screenshot">
-                    <img src="screenshots/settings.png" width="897" height="729" alt="Widget settings page with CLI executable, update interval, and dashboard options." loading="lazy">
-                </a>
-                <figcaption>
-                    <strong>Widget settings</strong>
-                    <p>A short settings page: CLI command, refresh interval, panel display, and notifications.</p>
-                </figcaption>
-            </figure>
+        <div class="gallery">
+            <div class="gallery-tabs" role="tablist" aria-label="Screenshot views">
+                <button class="gallery-tab is-active" id="tab-panel" type="button" role="tab" aria-selected="true" aria-controls="view-panel">Panel</button>
+                <button class="gallery-tab" id="tab-dashboard" type="button" role="tab" aria-selected="false" aria-controls="view-dashboard" tabindex="-1">Dashboard</button>
+                <button class="gallery-tab" id="tab-settings" type="button" role="tab" aria-selected="false" aria-controls="view-settings" tabindex="-1">Settings</button>
+            </div>
+            <div class="gallery-panes">
+                <figure class="gallery-pane is-active" id="view-panel" role="tabpanel" aria-labelledby="tab-panel">
+                    <a class="gallery-stage panel-stage" href="screenshots/status.png" title="Open full-size screenshot">
+                        <span class="panel-bar">
+                            <img src="screenshots/status.png" width="136" height="47" alt="Compact panel view showing the Jottacloud logo, 77% usage, 720 GiB, and an up-to-date status.">
+                        </span>
+                        <span class="actual-size">Actual size</span>
+                    </a>
+                    <figcaption>
+                        <strong>Compact panel view</strong>
+                        <p>Logo, percentage, and sync state at a glance. Choose exactly how much the panel shows.</p>
+                    </figcaption>
+                </figure>
+                <figure class="gallery-pane" id="view-dashboard" role="tabpanel" aria-labelledby="tab-dashboard" hidden>
+                    <a class="gallery-stage" href="screenshots/expanded.png" title="Open full-size screenshot">
+                        <img src="screenshots/expanded.png" width="400" height="448" alt="Expanded dashboard with account, storage, sync, transfers, backups, and recent activity sections.">
+                    </a>
+                    <figcaption>
+                        <strong>Expanded dashboard</strong>
+                        <p>Storage, sync progress, transfers, read-only backups, and activity in one popup.</p>
+                    </figcaption>
+                </figure>
+                <figure class="gallery-pane" id="view-settings" role="tabpanel" aria-labelledby="tab-settings" hidden>
+                    <a class="gallery-stage" href="screenshots/settings.png" title="Open full-size screenshot">
+                        <img src="screenshots/settings.png" width="897" height="729" alt="Widget settings page with CLI executable, update interval, and dashboard options.">
+                    </a>
+                    <figcaption>
+                        <strong>Widget settings</strong>
+                        <p>A short settings page: CLI command, refresh interval, panel display, and notifications.</p>
+                    </figcaption>
+                </figure>
+            </div>
         </div>
     </div>
 </section>
@@ -331,6 +337,10 @@ ok      CLI -> /usr/bin/jotta-cli</span>
                 <div class="faq-body">Yes. The widget reads the installed <code>jotta-cli</code> and its <code>jottad</code> daemon; it does not authenticate on its own or replace the official client. Log in once with the CLI, then add the widget.</div>
             </details>
             <details class="faq-item">
+                <summary>Does Jottacloud have a native Linux or KDE app?</summary>
+                <div class="faq-body">On Linux, Jottacloud provides a command-line client rather than a desktop GUI. This widget is an unofficial companion that surfaces that CLI's status in your KDE Plasma panel — it does not replace the official client or the daemon.</div>
+            </details>
+            <details class="faq-item">
                 <summary>Does it work with a containerized CLI?</summary>
                 <div class="faq-body">Yes, if you have a non-interactive wrapper that works from Plasma's environment. Set it as the CLI executable in the widget settings, and verify it first with <code>jotta-cli status --json</code>.</div>
             </details>
@@ -356,7 +366,7 @@ ok      CLI -> /usr/bin/jotta-cli</span>
             </details>
             <details class="faq-item">
                 <summary>Is this an official Jottacloud app?</summary>
-                <div class="faq-body">No. It is a community project, not affiliated with Jottacloud AS or KDE e.V. It only uses documented CLI commands and the official client remains in charge of your account.</div>
+                <div class="faq-body">No. It is an unofficial community project, not affiliated with, endorsed by, or supported by Jottacloud AS or KDE e.V. It only uses documented CLI commands, and the official client remains in charge of your account.</div>
             </details>
         </div>
     </div>
@@ -367,11 +377,12 @@ ok      CLI -> /usr/bin/jotta-cli</span>
     <div class="container footer-grid">
         <div class="footer-brand">
             <a class="brand" href="#top">
-                <img class="brand-icon" src="assets/logo.svg" alt="" width="24" height="24">
+                <img class="brand-icon" src="assets/mark.svg" alt="" width="24" height="24">
                 <span class="brand-name">Jottacloud status</span>
             </a>
             <p>Jottacloud sync status in your KDE Plasma 6 panel.</p>
-            <p class="tiny">Community project. Not affiliated with Jottacloud AS or KDE e.V.</p>
+            <p class="tiny">Developed by <a href="https://github.com/oal">Olav Lindekleiv</a>.</p>
+            <p class="tiny">Unofficial community project. Not affiliated with, endorsed by, or supported by Jottacloud AS or KDE e.V.</p>
         </div>
         <nav aria-label="Project">
             <h4>Project</h4>
@@ -401,7 +412,7 @@ ok      CLI -> /usr/bin/jotta-cli</span>
         </nav>
     </div>
     <div class="container footer-bottom">
-        <span>© <span id="year">2026</span> Jottacloud KDE contributors · MPL-2.0</span>
+        <span>Licensed under the <a href="https://www.mozilla.org/en-US/MPL/2.0/">MPL-2.0</a></span>
         <span class="built-for"><span class="dot ok"></span> Built for KDE Plasma 6</span>
     </div>
 </footer>
