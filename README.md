@@ -47,6 +47,13 @@ Plasma after changing `metadata.json`:
 Build a distributable package with `./tools/package.sh`, or remove the widget
 with `./tools/install.sh --remove`.
 
+## Website
+
+The project site lives in `docs/` and is published with GitHub Pages from the
+`main` branch, `/docs` folder: <https://oal.github.io/jottacloud-kde/>
+
+Preview it locally with `python3 -m http.server -d docs`.
+
 ## Configuration
 
 The default CLI command is `jotta-cli`, resolved in the Plasma environment. If

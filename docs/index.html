@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jottacloud status — a Plasma 6 widget for KDE</title>
+<meta name="description" content="A lightweight KDE Plasma 6 panel widget for the installed jotta-cli. Sync state, storage, transfers, read-only backups, and recent activity at a glance.">
+<meta name="theme-color" content="#1b1e20">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Jottacloud status for KDE Plasma">
+<meta property="og:description" content="A lightweight Plasma 6 panel widget for the installed jotta-cli. Sync, storage, transfers, read-only backups, and activity at a glance.">
+<meta property="og:url" content="https://oal.github.io/jottacloud-kde/">
+<meta property="og:image" content="https://oal.github.io/jottacloud-kde/screenshots/expanded.png">
+<script>
+(function () {
+    try {
+        var stored = localStorage.getItem("theme");
+        var theme = stored === "light" || stored === "dark"
+            ? stored
+            : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+    } catch (e) {
+        document.documentElement.dataset.theme = "light";
+    }
+})();
+</script>
+<link rel="stylesheet" href="style.css">
+<script defer src="app.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="panel">
+    <div class="container panel-inner">
+        <a class="brand" href="#top" aria-label="Jottacloud status — back to top">
+            <img class="brand-icon" src="assets/logo.svg" alt="" width="24" height="24">
+            <span class="brand-name">Jottacloud status</span>
+        </a>
+        <nav class="nav" aria-label="Sections">
+            <a href="#features">Features</a>
+            <a href="#screenshots">Screenshots</a>
+            <a href="#install">Install</a>
+            <a href="#configure">Configure</a>
+            <a href="#faq">FAQ</a>
+        </nav>
+        <div class="panel-actions">
+            <a class="panel-button" href="https://github.com/oal/jottacloud-kde" aria-label="GitHub repository" title="GitHub repository">
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+            </a>
+            <button class="panel-button" id="theme-toggle" type="button" aria-label="Switch to dark theme" title="Toggle light and dark theme">
+                <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+                <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6"/></svg>
+            </button>
+        </div>
+    </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <p class="eyebrow">Plasma 6 widget · MPL-2.0</p>
+            <h1>Your Jottacloud sync, <span class="accent">at a glance</span>.</h1>
+            <p class="lede">A lightweight KDE Plasma 6 widget for the installed <code>jotta-cli</code>. Keep sync state, storage, transfers, read-only backups, and recent activity visible from your panel — no tokens, no private API.</p>
+            <div class="hero-actions">
+                <a class="button primary" href="#install">Install the widget</a>
+                <a class="button secondary" href="https://github.com/oal/jottacloud-kde">View on GitHub</a>
+            </div>
+            <ul class="chips">
+                <li>Plasma 6</li>
+                <li>Native jotta-cli</li>
+                <li>Container friendly</li>
+                <li>English &amp; Norsk bokmål</li>
+            </ul>
+        </div>
+        <div class="hero-visual">
+            <div class="panel-mock">
+                <img src="assets/logo.svg" alt="" width="26" height="26">
+                <div class="panel-mock-text">
+                    <strong>77% – 720 GiB</strong>
+                    <span class="status"><span class="dot ok"></span>Up to date</span>
+                </div>
+            </div>
+            <figure class="window">
+                <div class="window-bar">
+                    <img src="assets/logo.svg" alt="" width="16" height="16">
+                    <span class="window-title">Jottacloud status</span>
+                    <span class="window-controls" aria-hidden="true">
+                        <span class="control"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 5h7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+                        <span class="control"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><rect x="1.8" y="1.8" width="6.4" height="6.4" rx="1" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span>
+                        <span class="control close"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.2 2.2l5.6 5.6M7.8 2.2L2.2 7.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
+                    </span>
+                </div>
+                <img class="window-shot" src="screenshots/expanded.png" width="400" height="448" alt="Expanded dashboard showing account, storage, sync, transfers, backups, and recent activity sections.">
+            </figure>
+            <p class="hero-note">Example data · the dashboard adapts to your panel and desktop.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="features">
+    <div class="container">
+        <header class="section-head">
+            <p class="eyebrow">Features</p>
+            <h2>Everything you need to keep an eye on sync</h2>
+            <p class="section-lede">The widget uses the same documented CLI commands you already run, and loads detail only when you open a section.</p>
+        </header>
+        <div class="cards">
+            <article class="card">
+                <div class="card-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 15h18"/><path d="M7 19h4"/></svg>
+                </div>
+                <h3>Made for the panel</h3>
+                <p>Compact by default: show the logo alone, the logo with usage, or a full size and sync summary. Transfer arrows appear only while something is moving.</p>
+            </article>
+            <article class="card">
+                <div class="card-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.66 3.58 3 8 3s8-1.34 8-3V6"/><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3"/></svg>
+                </div>
+                <h3>Storage at a glance</h3>
+                <p>Used and capacity with a usage bar in the dashboard, in the binary units the CLI reports. Finite accounts show a clear percentage.</p>
+            </article>
+            <article class="card">
+                <div class="card-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 12a8.5 8.5 0 0 1-15 5.5"/><path d="M3.5 12a8.5 8.5 0 0 1 15-5.5"/><path d="M18.5 3v4h-4"/><path d="M5.5 21v-4h4"/></svg>
+                </div>
+                <h3>Sync and transfers</h3>
+                <p>Sync root, current state, local and remote file counts, progress, plus current and recent uploads and downloads — fetched only when you look.</p>
+            </article>
+            <article class="card">
+                <div class="card-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 4.4-3 8.4-7 9.5-4-1.1-7-5.1-7-9.5V6z"/><path d="M9.2 12.2l2 2 3.8-4"/></svg>
+                </div>
+                <h3>Read-only backups</h3>
+                <p>Every configured backup folder with its status. The widget never edits backup definitions and has no destructive controls.</p>
+            </article>
+            <article class="card">
+                <div class="card-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l2.5-6 5 12 2.5-6h4"/></svg>
+                </div>
+                <h3>Activity and errors</h3>
+                <p>Recent sync log entries and the last successful update, with one deduplicated notification when the CLI or sync reports a real problem.</p>
+            </article>
+            <article class="card">
+                <div class="card-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.4-.3-.4-.5-.8-.5-1.2 0-1 .8-1.9 1.9-1.9H16a5 5 0 0 0 5-5c0-4.4-4-7.5-9-7.5z"/><circle cx="7.7" cy="11.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="8" r="1.1" fill="currentColor" stroke="none"/><circle cx="16.3" cy="11.5" r="1.1" fill="currentColor" stroke="none"/></svg>
+                </div>
+                <h3>Fits Breeze, speaks Norwegian</h3>
+                <p>Follows your Plasma color scheme, stays usable in narrow panels, and ships in English and Norwegian Bokmål.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section alt" id="screenshots">
+    <div class="container">
+        <header class="section-head">
+            <p class="eyebrow">Screenshots</p>
+            <h2>See it in your panel</h2>
+            <p class="section-lede">The compact view lives in the panel, the dashboard opens on the desktop, and everything in between is configurable.</p>
+        </header>
+        <div class="shots">
+            <figure class="shot">
+                <a class="shot-frame panel-frame" href="screenshots/status.png" title="Open full-size screenshot">
+                    <img src="screenshots/status.png" width="136" height="47" alt="Compact panel view showing the Jottacloud logo, 77% usage, 720 GiB, and an up-to-date status." loading="lazy">
+                </a>
+                <figcaption>
+                    <strong>Compact panel view</strong>
+                    <p>Logo, percentage, and sync state at a glance. Choose exactly how much the panel shows.</p>
+                </figcaption>
+            </figure>
+            <figure class="shot">
+                <a class="shot-frame" href="screenshots/expanded.png" title="Open full-size screenshot">
+                    <img src="screenshots/expanded.png" width="400" height="448" alt="Expanded dashboard with account, storage, sync, transfers, backups, and recent activity sections." loading="lazy">
+                </a>
+                <figcaption>
+                    <strong>Expanded dashboard</strong>
+                    <p>Storage, sync progress, transfers, read-only backups, and activity in one popup.</p>
+                </figcaption>
+            </figure>
+            <figure class="shot">
+                <a class="shot-frame" href="screenshots/settings.png" title="Open full-size screenshot">
+                    <img src="screenshots/settings.png" width="897" height="729" alt="Widget settings page with CLI executable, update interval, and dashboard options." loading="lazy">
+                </a>
+                <figcaption>
+                    <strong>Widget settings</strong>
+                    <p>A short settings page: CLI command, refresh interval, panel display, and notifications.</p>
+                </figcaption>
+            </figure>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="install">
+    <div class="container">
+        <header class="section-head">
+            <p class="eyebrow">Install</p>
+            <h2>From clone to panel in a minute</h2>
+            <p class="section-lede">The widget installs for the current user. No sudo, no background service, no second daemon.</p>
+        </header>
+        <div class="install-grid">
+            <div class="install-copy">
+                <div class="requirements">
+                    <h3>Before you start</h3>
+                    <ul>
+                        <li><svg class="check" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg>Plasma 6 with <code>kpackagetool6</code></li>
+                        <li><svg class="check" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg>A logged-in <code>jotta-cli</code></li>
+                        <li><svg class="check" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg>A running <code>jottad</code> daemon</li>
+                        <li><svg class="check" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg>Node.js 18+ only for the tests</li>
+                    </ul>
+                </div>
+                <ol class="steps">
+                    <li>
+                        <h3>Clone the repository</h3>
+                        <div class="code">
+                            <code id="cmd-clone">git clone https://github.com/oal/jottacloud-kde.git</code>
+                            <button class="copy-button" type="button" data-copy="cmd-clone" aria-label="Copy clone command">Copy</button>
+                        </div>
+                    </li>
+                    <li>
+                        <h3>Check your environment</h3>
+                        <p>Verifies the Plasma tools and that <code>jotta-cli status --json</code> actually works.</p>
+                        <div class="code">
+                            <code id="cmd-check">./tools/check-environment.sh</code>
+                            <button class="copy-button" type="button" data-copy="cmd-check" aria-label="Copy environment check command">Copy</button>
+                        </div>
+                    </li>
+                    <li>
+                        <h3>Install for your user</h3>
+                        <p>Installs the widget and registers the icon, then add <strong>Jottacloud status</strong> from <em>right-click panel → Add Widgets</em>.</p>
+                        <div class="code">
+                            <code id="cmd-install">./tools/install.sh</code>
+                            <button class="copy-button" type="button" data-copy="cmd-install" aria-label="Copy install command">Copy</button>
+                        </div>
+                    </li>
+                </ol>
+                <p class="muted">Restart Plasma only after changing <code>metadata.json</code>: <code>./tools/install.sh --restart</code>. If the CLI is missing or fails, the widget shows an offline state and keeps the last good snapshot.</p>
+            </div>
+            <div class="install-visual">
+                <div class="terminal" aria-label="Example install session">
+                    <div class="terminal-bar">
+                        <span class="terminal-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                        <span class="terminal-title">install — konsole</span>
+                    </div>
+                    <pre><code><span class="prompt">$</span> git clone https://github.com/oal/jottacloud-kde.git
+<span class="prompt">$</span> cd jottacloud-kde
+<span class="prompt">$</span> ./tools/check-environment.sh
+<span class="out">ok      kpackagetool6 -> /usr/bin/kpackagetool6
+ok      plasmawindowed -> /usr/bin/plasmawindowed
+ok      qmllint -> /usr/bin/qmllint
+ok      node -> /usr/bin/node
+ok      CLI -> /usr/bin/jotta-cli</span>
+<span class="prompt">$</span> ./tools/install.sh
+<span class="ok">==> installed to /home/you/.local/share/plasma/plasmoids/io.github.oal.jottacloud-kde
+==> Add it from: right-click the panel -> Add Widgets -> "Jottacloud status"</span></code></pre>
+                </div>
+                <div class="more-tools">
+                    <h3>More tools</h3>
+                    <ul>
+                        <li><code>./tools/package.sh</code> builds a distributable <code>.plasmoid</code></li>
+                        <li><code>./tools/install.sh --remove</code> uninstalls the widget</li>
+                        <li><code>node --test tests/*.test.mjs</code> runs the pure-logic tests</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section alt" id="configure">
+    <div class="container">
+        <header class="section-head">
+            <p class="eyebrow">Configure</p>
+            <h2>Settings that stay out of the way</h2>
+            <p class="section-lede">A short configuration page, mirroring your panel habits: sane defaults, nothing hidden that changes your account.</p>
+        </header>
+        <div class="settings-card">
+            <div class="settings-row">
+                <div class="settings-label">CLI executable</div>
+                <div class="settings-value">Defaults to <code>jotta-cli</code> resolved from Plasma's environment. Point it at an absolute path or a non-interactive container wrapper when needed.</div>
+            </div>
+            <div class="settings-row">
+                <div class="settings-label">Refresh every</div>
+                <div class="settings-value">30 seconds by default. Polls are serialized, and detail sections load on demand.</div>
+            </div>
+            <div class="settings-row">
+                <div class="settings-label">Panel storage</div>
+                <div class="settings-value">Logo only, logo + percentage, or percentage + size + sync status, depending on your panel.</div>
+            </div>
+            <div class="settings-row">
+                <div class="settings-label">Panel transfers</div>
+                <div class="settings-value">Show upload and download indicators only while transfers are active.</div>
+            </div>
+            <div class="settings-row">
+                <div class="settings-label">Account section</div>
+                <div class="settings-value">Hide account and device information from the dashboard if you don't need it.</div>
+            </div>
+            <div class="settings-row">
+                <div class="settings-label">Recent entries</div>
+                <div class="settings-value">How many activity and error rows to keep in view — five by default.</div>
+            </div>
+            <div class="settings-row">
+                <div class="settings-label">Error notifications</div>
+                <div class="settings-value">One notification per problem, deduplicated. Normal upload and download progress never notifies.</div>
+            </div>
+        </div>
+        <div class="safety">
+            <h3>Safe by design</h3>
+            <ul>
+                <li><svg class="check" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg>Only documented commands: <code>status</code>, <code>list</code>, <code>log</code>, and <code>syncpaused</code></li>
+                <li><svg class="check" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg>Never stores or asks for credentials or tokens</li>
+                <li><svg class="check" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg>Never resets, moves, sets up, deletes, archives, or logs out</li>
+                <li><svg class="check" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg>No private API, no daemon restarts, no second daemon</li>
+                <li><svg class="check" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 5"/></svg>Backups and backup folders stay read-only</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="faq">
+    <div class="container narrow">
+        <header class="section-head">
+            <p class="eyebrow">FAQ</p>
+            <h2>Questions, answered</h2>
+        </header>
+        <div class="faq">
+            <details class="faq-item">
+                <summary>Do I need the official jotta-cli installed?</summary>
+                <div class="faq-body">Yes. The widget reads the installed <code>jotta-cli</code> and its <code>jottad</code> daemon; it does not authenticate on its own or replace the official client. Log in once with the CLI, then add the widget.</div>
+            </details>
+            <details class="faq-item">
+                <summary>Does it work with a containerized CLI?</summary>
+                <div class="faq-body">Yes, if you have a non-interactive wrapper that works from Plasma's environment. Set it as the CLI executable in the widget settings, and verify it first with <code>jotta-cli status --json</code>.</div>
+            </details>
+            <details class="faq-item">
+                <summary>Can it touch or delete my files?</summary>
+                <div class="faq-body">No. It only reads status, transfer lists, and logs, and it toggles one documented setting for pause and resume. It never runs reset, move, setup, delete, archive, logout, or backup-removal commands.</div>
+            </details>
+            <details class="faq-item">
+                <summary>Will pausing stop my backups?</summary>
+                <div class="faq-body">No. Pause and resume only change the sync <code>syncpaused</code> state. Backup folders keep running and are displayed read-only.</div>
+            </details>
+            <details class="faq-item">
+                <summary>Where are my credentials stored?</summary>
+                <div class="faq-body">Only in your existing <code>jotta-cli</code>/<code>jottad</code> installation. The widget never asks for a token, never stores one, and never talks to Jottacloud's private API.</div>
+            </details>
+            <details class="faq-item">
+                <summary>Which Plasma versions are supported?</summary>
+                <div class="faq-body">Plasma 6 only. The package targets the Plasma 6 declarative applet API and is not available for Plasma 5.</div>
+            </details>
+            <details class="faq-item">
+                <summary>How do I update or uninstall it?</summary>
+                <div class="faq-body">Re-run <code>./tools/install.sh</code> to upgrade, or <code>./tools/install.sh --remove</code> to uninstall. Restart plasmashell after metadata changes with <code>./tools/install.sh --restart</code>.</div>
+            </details>
+            <details class="faq-item">
+                <summary>Is this an official Jottacloud app?</summary>
+                <div class="faq-body">No. It is a community project, not affiliated with Jottacloud AS or KDE e.V. It only uses documented CLI commands and the official client remains in charge of your account.</div>
+            </details>
+        </div>
+    </div>
+</section>
+</main>
+
+<footer class="footer">
+    <div class="container footer-grid">
+        <div class="footer-brand">
+            <a class="brand" href="#top">
+                <img class="brand-icon" src="assets/logo.svg" alt="" width="24" height="24">
+                <span class="brand-name">Jottacloud status</span>
+            </a>
+            <p>Jottacloud sync status in your KDE Plasma 6 panel.</p>
+            <p class="tiny">Community project. Not affiliated with Jottacloud AS or KDE e.V.</p>
+        </div>
+        <nav aria-label="Project">
+            <h4>Project</h4>
+            <ul>
+                <li><a href="https://github.com/oal/jottacloud-kde">GitHub</a></li>
+                <li><a href="https://github.com/oal/jottacloud-kde/issues">Issues</a></li>
+                <li><a href="https://www.mozilla.org/en-US/MPL/2.0/">License (MPL-2.0)</a></li>
+            </ul>
+        </nav>
+        <nav aria-label="Widget">
+            <h4>Widget</h4>
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#screenshots">Screenshots</a></li>
+                <li><a href="#install">Install</a></li>
+                <li><a href="#configure">Configure</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+        </nav>
+        <nav aria-label="Resources">
+            <h4>Resources</h4>
+            <ul>
+                <li><a href="https://docs.jottacloud.com">Jottacloud CLI docs</a></li>
+                <li><a href="https://kde.org/plasma-desktop/">Get KDE Plasma</a></li>
+                <li><a href="https://github.com/oal/jottacloud-kde/issues/new">Report a bug</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="container footer-bottom">
+        <span>© <span id="year">2026</span> Jottacloud KDE contributors · MPL-2.0</span>
+        <span class="built-for"><span class="dot ok"></span> Built for KDE Plasma 6</span>
+    </div>
+</footer>
+</body>
+</html>

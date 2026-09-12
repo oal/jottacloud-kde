@@ -8,5 +8,9 @@ QML file with `qmllint`, build with `./tools/package.sh`, and use
 Restart `plasmashell` after changing `metadata.json` or an ES module because
 Plasma caches package metadata and loaded modules.
 
+The static project site lives in `docs/` and is published with GitHub Pages
+from the `main` branch `/docs` folder. Preview it with
+`python3 -m http.server -d docs`.
+
 The current project intentionally never invokes `sync reset`, `sync move`,
 `sync setup`, delete, archive, logout, or backup-removal commands.
