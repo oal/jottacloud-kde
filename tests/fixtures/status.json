@@ -1,0 +1,33 @@
+{
+  "account": { "email": "demo@example.invalid", "name": "Example user" },
+  "device": { "name": "example-device", "id": "device-example" },
+  "storage": { "usedBytes": 3221225472, "capacityBytes": 8589934592 },
+  "sync": {
+    "configured": true,
+    "enabled": true,
+    "automatic": true,
+    "path": "/tmp/example/Cloud Sync",
+    "state": "Working",
+    "files": { "count": 12, "sizeBytes": 2147483648 },
+    "localFiles": 12,
+    "remoteFiles": 14,
+    "upload": {
+      "name": "example.txt",
+      "progress": 42,
+      "transferredBytes": 4194304,
+      "totalBytes": 10485760,
+      "speed": "2 MiB"
+    }
+  },
+  "backups": [
+    { "path": "/tmp/example/Documents", "state": "Up to date", "files": { "count": 23, "size": "4 GiB" } }
+  ],
+  "uploads": [
+    { "name": "example.txt", "state": "uploading", "progress": 42, "sizeBytes": 10485760 }
+  ],
+  "downloads": [],
+  "activity": [
+    { "message": "Uploaded example.txt", "state": "completed", "timestamp": "2024-01-01T10:00:00Z" }
+  ],
+  "errors": []
+}

@@ -1,0 +1,22 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Jottacloud KDE contributors"
+            }
+        ],
+        "Category": "Utilities",
+        "Description": "Shows the status of your Jottacloud sync",
+        "Description[nb]": "Viser status for Jottacloud-synkronisering",
+        "Icon": "jottacloud",
+        "Id": "io.github.jottacloud-kde",
+        "License": "MPL-2.0",
+        "Name": "Jottacloud status",
+        "Name[nb]": "Jottacloud-status",
+        "Version": "0.1.0"
+    },
+    "X-Plasma-API": "declarativeappletscript",
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-MainScript": "ui/main.qml"
+}

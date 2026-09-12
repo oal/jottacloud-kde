@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SPDX-License-Identifier: MPL-2.0 -->
+<!-- KConfigXT keys are available in QML as plasmoid.configuration.<name>. -->
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+  <kcfgfile name=""/>
+  <group name="General">
+    <entry name="cliExecutable" type="String">
+      <label>Jottacloud CLI executable or wrapper</label>
+      <default>jotta-cli</default>
+    </entry>
+    <entry name="refreshIntervalSeconds" type="Int">
+      <label>Status refresh interval in seconds</label>
+      <default>30</default>
+      <min>10</min>
+      <max>600</max>
+    </entry>
+    <entry name="showAccountDevice" type="Bool">
+      <label>Show account and device information</label>
+      <default>true</default>
+    </entry>
+    <entry name="recentEntries" type="Int">
+      <label>Recent activity and error entries</label>
+      <default>5</default>
+      <min>1</min>
+      <max>20</max>
+    </entry>
+    <entry name="notificationsEnabled" type="Bool">
+      <label>Notify about meaningful errors</label>
+      <default>true</default>
+    </entry>
+    <entry name="webUrl" type="String">
+      <label>Jottacloud web page</label>
+      <default>https://www.jottacloud.com/web/secure</default>
+    </entry>
+  </group>
+</kcfg>

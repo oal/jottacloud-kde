@@ -1,0 +1,5 @@
+dist/
+contents/locale/
+*.mo
+*~
+.DS_Store

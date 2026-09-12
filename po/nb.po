@@ -1,0 +1,237 @@
+# SPDX-License-Identifier: MPL-2.0
+msgid ""
+msgstr ""
+"Project-Id-Version: plasma_applet_io.github.jottacloud-kde\n"
+"Language: nb\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Jottacloud status"
+msgstr "Jottacloud-status"
+
+msgid "Not configured"
+msgstr "Ikke konfigurert"
+
+msgid "CLI unavailable"
+msgstr "CLI utilgjengelig"
+
+msgid "Offline"
+msgstr "Frakoblet"
+
+msgid "Error"
+msgstr "Feil"
+
+msgid "Sync paused"
+msgstr "Synkronisering satt på pause"
+
+msgid "Syncing"
+msgstr "Synkroniserer"
+
+msgid "Up to date"
+msgstr "Oppdatert"
+
+msgid "Stale data"
+msgstr "Foreldede data"
+
+msgid "Unknown status"
+msgstr "Ukjent status"
+
+msgid "Refresh now"
+msgstr "Oppdater nå"
+
+msgid "Pause sync"
+msgstr "Sett synkronisering på pause"
+
+msgid "Resume sync"
+msgstr "Fortsett synkronisering"
+
+msgid "Open sync folder"
+msgstr "Åpne synkroniseringsmappe"
+
+msgid "Jottacloud"
+msgstr "Jottacloud"
+
+msgid "Configure Jottacloud"
+msgstr "Konfigurer Jottacloud"
+
+msgid "Open Jottacloud website"
+msgstr "Åpne Jottacloud-nettstedet"
+
+msgid "No successful update yet"
+msgstr "Ingen vellykket oppdatering ennå"
+
+msgid "Unlimited"
+msgstr "Ubegrenset"
+
+msgid "Unknown"
+msgstr "Ukjent"
+
+msgid "Account not reported"
+msgstr "Konto ikke rapportert"
+
+msgid "Device not reported"
+msgstr "Enhet ikke rapportert"
+
+msgid "Used"
+msgstr "Brukt"
+
+msgid "This account has unlimited storage."
+msgstr "Denne kontoen har ubegrenset lagring."
+
+msgid "No sync folder configured"
+msgstr "Ingen synkroniseringsmappe konfigurert"
+
+msgid "Automatic"
+msgstr "Automatisk"
+
+msgid "Manual"
+msgstr "Manuell"
+
+msgid "Disabled"
+msgstr "Deaktivert"
+
+msgid "Loading"
+msgstr "Laster inn"
+
+msgid "Loading transfer information..."
+msgstr "Laster inn overføringsinformasjon..."
+
+msgid "No active transfers"
+msgstr "Ingen aktive overføringer"
+
+msgid "No backup folders reported"
+msgstr "Ingen sikkerhetskopimapper rapportert"
+
+msgid "Loading activity..."
+msgstr "Laster inn aktivitet..."
+
+msgid "No recent activity"
+msgstr "Ingen nylig aktivitet"
+
+msgid "Needs attention"
+msgstr "Krever oppfølging"
+
+msgid "details unavailable"
+msgstr "detaljer utilgjengelige"
+
+msgid "Waiting for a status response from jotta-cli."
+msgstr "Venter på et statussvar fra jotta-cli."
+
+msgid "Unnamed file"
+msgstr "Fil uten navn"
+
+msgid "The Jottacloud command failed"
+msgstr "Jottacloud-kommandoen mislyktes"
+
+msgid "Command line client"
+msgstr "Kommandolinjeklient"
+
+msgid "CLI executable:"
+msgstr "CLI-program:"
+
+msgid "jotta-cli"
+msgstr "jotta-cli"
+
+msgid "Use jotta-cli when it is on Plasma's PATH. You can also enter an absolute path to a host wrapper. The widget never stores or asks for your login token."
+msgstr "Bruk jotta-cli når den er på Plasmas PATH. Du kan også skrive inn en absolutt sti til en vertsinnpakning. Widgeten lagrer eller spør aldri etter innloggingstokenet ditt."
+
+msgid "Updates"
+msgstr "Oppdateringer"
+
+msgid "Refresh every:"
+msgstr "Oppdater hvert:"
+
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] "%1 sekund"
+msgstr[1] "%1 sekunder"
+
+msgid "Recent entries:"
+msgstr "Nylige oppføringer:"
+
+msgid "%1 entry"
+msgid_plural "%1 entries"
+msgstr[0] "%1 oppføring"
+msgstr[1] "%1 oppføringer"
+
+msgid "Dashboard"
+msgstr "Oversikt"
+
+msgid "Account section:"
+msgstr "Kontoseksjon:"
+
+msgid "Error notifications:"
+msgstr "Feilvarsler:"
+
+msgid "Notify when the CLI or sync enters an error state"
+msgstr "Varsle når CLI-en eller synkroniseringen går inn i en feiltilstand"
+
+msgid "Normal upload and download progress never creates a notification. Repeated copies of the same error are suppressed."
+msgstr "Vanlig opplastings- og nedlastingsfremdrift lager aldri varsler. Gjentatte kopier av samme feil undertrykkes."
+
+msgid "Links"
+msgstr "Lenker"
+
+msgid "Web page:"
+msgstr "Nettside:"
+
+msgctxt "%1 is a local time"
+msgid "Updated %1"
+msgstr "Oppdatert %1"
+
+msgctxt "%1 is a file count"
+msgid "%1 local"
+msgstr "%1 lokale"
+
+msgctxt "%1 is a file count"
+msgid "%1 remote"
+msgstr "%1 eksterne"
+
+msgctxt "%1 is a file count"
+msgid "%1 files"
+msgstr "%1 filer"
+
+msgctxt "%1 is the device name"
+msgid "Device: %1"
+msgstr "Enhet: %1"
+
+msgctxt "%1 is the sync data size"
+msgid "Sync data: %1"
+msgstr "Synkroniseringsdata: %1"
+
+msgctxt "%1 is a folder count"
+msgid "%1 folders"
+msgstr "%1 mapper"
+
+msgctxt "%1 is an entry count"
+msgid "%1 entries"
+msgstr "%1 oppføringer"
+
+msgctxt "%1 files, %2 backup state"
+msgid "%1 files - %2"
+msgstr "%1 filer - %2"
+
+msgctxt "%1 backup state, %2 error"
+msgid "%1 - %2"
+msgstr "%1 - %2"
+
+msgid "Account and device"
+msgstr "Konto og enhet"
+
+msgid "Storage"
+msgstr "Lagring"
+
+msgid "Sync"
+msgstr "Synkronisering"
+
+msgid "Transfers"
+msgstr "Overføringer"
+
+msgid "Backups"
+msgstr "Sikkerhetskopier"
+
+msgid "Recent activity"
+msgstr "Nylig aktivitet"
+
+msgid "Errors"
+msgstr "Feil"

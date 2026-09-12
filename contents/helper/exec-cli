@@ -1,0 +1,16 @@
+#!/bin/sh
+# SPDX-License-Identifier: MPL-2.0
+#
+# Plasma's executable data engine accepts one command string. Keep that shell
+# boundary limited to launching this fixed helper, then execute the configured
+# CLI and its fixed argv directly with no second shell parse.
+set -eu
+
+if [ "$#" -lt 1 ]; then
+    printf '%s\n' 'CLI executable is missing' >&2
+    exit 64
+fi
+
+cli=$1
+shift
+exec "$cli" "$@"
