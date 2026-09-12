@@ -8,9 +8,10 @@
 - Phase 2 is complete: CLI command construction, defensive status/detail
   parsing, state derivation, freshness, size formatting, error deduplication,
   and unit tests are implemented.
-- Phases 3 and 4 are complete in source: compact state icon, responsive
-  expandable dashboard, actions, notifications, backups, transfers, activity,
-  and translations are implemented.
+- Phases 3 and 4 are complete in source: responsive compact and desktop views,
+  branded icon, storage usage summaries, transfer indicators, actions,
+  notifications, backups, transfers, activity, and translations are
+  implemented.
 - Phase 5 requires verification on a Plasma host. Run the environment check,
   unit tests, QML lint, package build, installation, and manual acceptance
   checklist before release.
@@ -35,7 +36,8 @@ packaging and implementation patterns.
   - paused
   - error/offline
 - The icon and tooltip will communicate state without relying on color alone.
-- The compact view will not show a large amount of text or storage numbers.
+- The compact view automatically adds storage usage when panel space allows and
+  shows upload/download indicators only while transfers are active.
 
 ### Popup dashboard
 
@@ -403,7 +405,8 @@ this plan:
 
 - New standalone Plasma 6 widget in `jottacloud-kde`.
 - Full read-only dashboard, with sync-only pause/resume controls.
-- Compact icon plus state, not a persistent storage percentage in the panel.
+- Automatic compact panel summary, with configurable storage and transfer
+  indicators.
 - Summary-first popup with expandable sections.
 - English and Norwegian Bokmal.
 - Native and container-backed CLI support where practical.

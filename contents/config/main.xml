@@ -21,6 +21,14 @@
       <label>Show account and device information</label>
       <default>true</default>
     </entry>
+    <entry name="showCompactStorage" type="Bool">
+      <label>Show storage usage in the compact panel view</label>
+      <default>true</default>
+    </entry>
+    <entry name="showCompactTransfers" type="Bool">
+      <label>Show active transfer indicators in the compact panel view</label>
+      <default>true</default>
+    </entry>
     <entry name="recentEntries" type="Int">
       <label>Recent activity and error entries</label>
       <default>5</default>

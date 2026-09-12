@@ -9,7 +9,7 @@
         "Category": "Utilities",
         "Description": "Shows the status of your Jottacloud sync",
         "Description[nb]": "Viser status for Jottacloud-synkronisering",
-        "Icon": "jottacloud",
+        "Icon": "io.github.oal.jottacloud-kde",
         "Id": "io.github.oal.jottacloud-kde",
         "License": "MPL-2.0",
         "Name": "Jottacloud status",

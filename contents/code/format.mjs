@@ -4,6 +4,8 @@ const BINARY_UNITS = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
 const DECIMAL_UNITS = ['B', 'kB', 'MB', 'GB', 'TB', 'PB'];
 
 function finite(value) {
+    if (value === null || value === undefined || value === '')
+        return null;
     const number = Number(value);
     return Number.isFinite(number) ? number : null;
 }
@@ -68,6 +70,16 @@ export function formatPercent(usedBytes, capacityBytes) {
     return Math.max(0, Math.min(1, used / capacity));
 }
 
+export function formatCompactStorage(usedBytes, capacityBytes) {
+    const parts = [];
+    const ratio = formatPercent(usedBytes, capacityBytes);
+    if (ratio !== null)
+        parts.push(`${Math.round(ratio * 100)}%`);
+    if (finite(usedBytes) !== null && Number(usedBytes) >= 0)
+        parts.push(formatBytes(usedBytes));
+    return parts.join(' - ');
+}
+
 export function formatCount(value) {
     const count = finite(value);
     if (count === null)
@@ -84,7 +96,8 @@ export function formatProgress(progress) {
     const value = finite(progress);
     if (value === null)
         return '';
-    return `${Math.round(Math.max(0, Math.min(1, value)) * 100)}%`;
+    const fraction = value > 1 ? value / 100 : value;
+    return `${Math.round(Math.max(0, Math.min(1, fraction)) * 100)}%`;
 }
 
 /** Encode each path component while retaining separators for a file URL. */

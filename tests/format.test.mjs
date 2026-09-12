@@ -4,7 +4,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
-    parseSize, formatBytes, formatPercent, formatProgress, fileUrl,
+    parseSize, formatBytes, formatPercent, formatCompactStorage, formatProgress, fileUrl,
 } from '../contents/code/format.mjs';
 
 test('parseSize accepts binary and decimal CLI values', () => {
@@ -27,6 +27,12 @@ test('formatPercent clamps and treats unlimited capacity as absent', () => {
     assert.equal(formatPercent(5, 10), 0.5);
     assert.equal(formatPercent(20, 10), 1);
     assert.equal(formatPercent(1, null), null);
+});
+
+test('formatCompactStorage combines percentage and used binary storage', () => {
+    assert.equal(formatCompactStorage(3 * 1024 ** 3, 8 * 1024 ** 3), '38% - 3.00 GiB');
+    assert.equal(formatCompactStorage(3 * 1024 ** 3, null), '3.00 GiB');
+    assert.equal(formatCompactStorage(null, 8 * 1024 ** 3), '');
 });
 
 test('formatProgress accepts both fractions and percentages', () => {

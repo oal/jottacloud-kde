@@ -6,6 +6,10 @@ set -euo pipefail
 ID="io.github.oal.jottacloud-kde"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 INSTALLED="$HOME/.local/share/plasma/plasmoids/$ID"
+ICON_NAME="io.github.oal.jottacloud-kde"
+ICON_SOURCE="$ROOT/contents/icons/$ICON_NAME.svg"
+ICON_DIR="$HOME/.local/share/icons/hicolor/scalable/apps"
+ICON_TARGET="$ICON_DIR/$ICON_NAME.svg"
 ACTION="auto"
 RESTART=0
 
@@ -29,6 +33,23 @@ restart_shell() {
     fi
 }
 
+refresh_icon_cache() {
+    if command -v kbuildsycoca6 >/dev/null 2>&1; then
+        kbuildsycoca6 --noincremental >/dev/null 2>&1 || true
+    fi
+}
+
+install_icon() {
+    mkdir -p "$ICON_DIR"
+    install -m 0644 "$ICON_SOURCE" "$ICON_TARGET"
+    refresh_icon_cache
+}
+
+remove_icon() {
+    rm -f "$ICON_TARGET"
+    refresh_icon_cache
+}
+
 for arg in "$@"; do
     case "$arg" in
         --upgrade) ACTION="upgrade" ;;
@@ -42,6 +63,7 @@ done
 case "$ACTION" in
     remove)
         kpackagetool6 --type Plasma/Applet --remove "$ID"
+        remove_icon
         printf '==> removed %s\n' "$ID"
         exit 0
         ;;
@@ -57,6 +79,7 @@ case "$ACTION" in
         ;;
 esac
 
+install_icon
 printf '==> installed to %s\n' "$INSTALLED"
 if [[ "$RESTART" -eq 1 ]]; then
     restart_shell

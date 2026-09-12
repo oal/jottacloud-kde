@@ -99,6 +99,18 @@ msgstr "Laster inn overføringsinformasjon..."
 msgid "No active transfers"
 msgstr "Ingen aktive overføringer"
 
+msgid "Uploading"
+msgstr "Laster opp"
+
+msgid "Downloading"
+msgstr "Laster ned"
+
+msgid "Storage used"
+msgstr "Brukt lagring"
+
+msgid "Sync status"
+msgstr "Synkroniseringsstatus"
+
 msgid "No backup folders reported"
 msgstr "Ingen sikkerhetskopimapper rapportert"
 
@@ -159,6 +171,18 @@ msgstr "Oversikt"
 
 msgid "Account section:"
 msgstr "Kontoseksjon:"
+
+msgid "Panel storage:"
+msgstr "Panel-lagring:"
+
+msgid "Show storage usage when the panel has enough space"
+msgstr "Vis lagringsbruk når panelet har nok plass"
+
+msgid "Panel transfers:"
+msgstr "Panel-overføringer:"
+
+msgid "Show upload and download indicators while active"
+msgstr "Vis opplastings- og nedlastingsindikatorer mens de er aktive"
 
 msgid "Error notifications:"
 msgstr "Feilvarsler:"

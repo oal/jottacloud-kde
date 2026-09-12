@@ -4,6 +4,7 @@ import QtQuick
 import QtQuick.Controls as QQC2
 import QtQuick.Layouts
 import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.components as PlasmaComponents
 import org.kde.plasma.plasmoid
 import org.kde.kirigami as Kirigami
 
@@ -13,6 +14,16 @@ MouseArea {
     id: compact
 
     readonly property bool horizontal: Plasmoid.formFactor === PlasmaCore.Types.Horizontal
+    readonly property int iconSize: Kirigami.Units.iconSizes.smallMedium
+    readonly property int compactSize: iconSize + Kirigami.Units.smallSpacing * 2
+    readonly property int summaryWidth: preferredSummaryWidth()
+    readonly property bool summaryRequested: root.compactStorageEnabled || root.compactTransfersEnabled
+    readonly property bool showSummary: horizontal && summaryRequested && width >= summaryWidth
+    readonly property bool showStorage: showSummary && root.compactStorageEnabled &&
+                                       root.compactStorageText().length > 0
+    readonly property bool showTransfers: showSummary && root.compactTransfersEnabled &&
+                                         (root.hasActiveTransfer("upload") ||
+                                          root.hasActiveTransfer("download"))
     readonly property color badgeColor: {
         switch (root.stateColor(root.dashboardState)) {
         case "positive": return Kirigami.Theme.positiveTextColor;
@@ -22,10 +33,26 @@ MouseArea {
         }
     }
 
-    Layout.minimumWidth: horizontal ? Kirigami.Units.iconSizes.small + Kirigami.Units.smallSpacing * 2 : 0
-    Layout.preferredWidth: Layout.minimumWidth
-    Layout.minimumHeight: horizontal ? 0 : Kirigami.Units.iconSizes.small + Kirigami.Units.smallSpacing * 2
-    Layout.preferredHeight: Layout.minimumHeight
+    function preferredSummaryWidth() {
+        let width = compactSize;
+        const storageText = root.compactStorageText();
+        if (root.compactStorageEnabled && storageText.length > 0) {
+            width += Kirigami.Units.smallSpacing +
+                Math.max(storageMetrics.width, stateMetrics.width);
+        }
+        if (root.compactTransfersEnabled) {
+            const transferCount = (root.hasActiveTransfer("upload") ? 1 : 0) +
+                (root.hasActiveTransfer("download") ? 1 : 0);
+            if (transferCount > 0)
+                width += Kirigami.Units.smallSpacing + transferCount * iconSize;
+        }
+        return width;
+    }
+
+    Layout.minimumWidth: horizontal ? compactSize : 0
+    Layout.preferredWidth: horizontal && summaryRequested ? summaryWidth : compactSize
+    Layout.minimumHeight: horizontal ? 0 : compactSize
+    Layout.preferredHeight: compactSize
 
     hoverEnabled: true
     acceptedButtons: Qt.LeftButton | Qt.MiddleButton
@@ -33,7 +60,7 @@ MouseArea {
 
     Accessible.role: Accessible.Button
     Accessible.name: root.toolTipMainText
-    Accessible.description: root.tooltipText()
+    Accessible.description: root.tooltipText() + " - " + root.storageSummary()
 
     onClicked: (mouse) => {
         if (mouse.button === Qt.MiddleButton)
@@ -49,39 +76,110 @@ MouseArea {
         }
     }
 
-    Kirigami.Icon {
-        id: cloudIcon
-        anchors.centerIn: parent
-        source: root.stateIcon(root.dashboardState)
-        implicitWidth: Kirigami.Units.iconSizes.small
-        implicitHeight: implicitWidth
-        color: Kirigami.Theme.textColor
-        opacity: root.dashboardState === Status.STATE.UNKNOWN ? 0.65 : 1
-    }
+    RowLayout {
+        anchors.fill: parent
+        spacing: Kirigami.Units.smallSpacing
 
-    Rectangle {
-        id: badge
-        anchors.right: cloudIcon.right
-        anchors.bottom: cloudIcon.bottom
-        anchors.rightMargin: -width * 0.25
-        anchors.bottomMargin: -height * 0.2
-        width: Math.max(Kirigami.Units.gridUnit * 0.75, symbol.implicitWidth + 4)
-        height: Math.max(Kirigami.Units.gridUnit * 0.65, symbol.implicitHeight + 2)
-        radius: height / 2
-        color: Kirigami.Theme.backgroundColor
-        border.color: compact.badgeColor
-        border.width: 1
+        Item {
+            id: iconHolder
+            Layout.preferredWidth: compact.iconSize + Kirigami.Units.smallSpacing
+            Layout.preferredHeight: compact.iconSize + Kirigami.Units.smallSpacing
+            Layout.alignment: compact.showSummary ? Qt.AlignVCenter : Qt.AlignCenter
 
-        Text {
-            id: symbol
-            anchors.centerIn: parent
-            text: root.stateSymbol(root.dashboardState)
-            color: compact.badgeColor
-            font.pixelSize: Kirigami.Theme.smallFont.pixelSize
-            font.weight: Font.Bold
+            Kirigami.Icon {
+                id: cloudIcon
+                anchors.centerIn: parent
+                source: root.brandIconSource
+                implicitWidth: compact.iconSize
+                implicitHeight: implicitWidth
+                opacity: root.dashboardState === Status.STATE.UNKNOWN ? 0.65 : 1
+            }
+
+            Rectangle {
+                id: badge
+                anchors.right: cloudIcon.right
+                anchors.bottom: cloudIcon.bottom
+                anchors.rightMargin: -width * 0.1
+                anchors.bottomMargin: -height * 0.1
+                width: Math.max(Kirigami.Units.smallSpacing * 2,
+                                symbol.implicitWidth + 4, symbol.implicitHeight + 4)
+                height: width
+                radius: width / 2
+                color: Kirigami.Theme.backgroundColor
+                border.color: compact.badgeColor
+                border.width: 1
+
+                Text {
+                    id: symbol
+                    anchors.fill: parent
+                    text: root.stateSymbol(root.dashboardState)
+                    color: compact.badgeColor
+                    font.pixelSize: Math.max(6, Kirigami.Theme.smallFont.pixelSize - 2)
+                    font.weight: Font.Bold
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+            }
+        }
+
+        ColumnLayout {
+            visible: compact.showStorage
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignVCenter
+            spacing: 0
+
+            PlasmaComponents.Label {
+                Layout.fillWidth: true
+                text: root.compactStorageText()
+                font.weight: Font.DemiBold
+                elide: Text.ElideRight
+            }
+
+            PlasmaComponents.Label {
+                Layout.fillWidth: true
+                text: root.stateText(root.dashboardState)
+                font: Kirigami.Theme.smallFont
+                opacity: 0.75
+                elide: Text.ElideRight
+            }
+        }
+
+        RowLayout {
+            visible: compact.showTransfers
+            Layout.alignment: Qt.AlignVCenter
+            spacing: 0
+
+            Kirigami.Icon {
+                visible: root.hasActiveTransfer("upload")
+                source: "upload"
+                implicitWidth: compact.iconSize
+                implicitHeight: implicitWidth
+                Accessible.name: i18n("Uploading")
+            }
+
+            Kirigami.Icon {
+                visible: root.hasActiveTransfer("download")
+                source: "download"
+                implicitWidth: compact.iconSize
+                implicitHeight: implicitWidth
+                Accessible.name: i18n("Downloading")
+            }
         }
     }
 
+    TextMetrics {
+        id: storageMetrics
+        text: root.compactStorageText()
+        font: Kirigami.Theme.defaultFont
+    }
+
+    TextMetrics {
+        id: stateMetrics
+        text: root.stateText(root.dashboardState)
+        font: Kirigami.Theme.smallFont
+    }
+
     QQC2.ToolTip.visible: compact.containsMouse
-    QQC2.ToolTip.text: root.tooltipText()
+    QQC2.ToolTip.text: root.tooltipText() + "\n" + root.storageSummary() + "\n" +
+                       root.transferTooltipText()
 }

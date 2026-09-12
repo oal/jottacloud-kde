@@ -13,10 +13,17 @@ import "../code/format.mjs" as Format
 PlasmaExtras.Representation {
     id: full
 
-    Layout.minimumWidth: Kirigami.Units.gridUnit * 20
+    readonly property bool wideLayout: width >= Kirigami.Units.gridUnit * 34
+
+    Layout.minimumWidth: Kirigami.Units.gridUnit * 16
     Layout.minimumHeight: Kirigami.Units.gridUnit * 15
-    Layout.preferredWidth: Kirigami.Units.gridUnit * 26
+    Layout.preferredWidth: Kirigami.Units.gridUnit * 16
     Layout.preferredHeight: Kirigami.Units.gridUnit * 28
+    Layout.maximumWidth: Kirigami.Units.gridUnit * 20
+    width: root.desktopFormFactor ? Kirigami.Units.gridUnit * 16
+                                  : Kirigami.Units.gridUnit * 16
+    height: root.desktopFormFactor ? Kirigami.Units.gridUnit * 32
+                                   : Kirigami.Units.gridUnit * 28
     collapseMarginsHint: true
 
     function syncFilesText() {
@@ -36,7 +43,7 @@ PlasmaExtras.Representation {
             spacing: Kirigami.Units.smallSpacing
 
             Kirigami.Icon {
-                source: root.stateIcon(root.dashboardState)
+                source: root.brandIconSource
                 implicitWidth: Kirigami.Units.iconSizes.small
                 implicitHeight: implicitWidth
             }
@@ -84,17 +91,129 @@ PlasmaExtras.Representation {
         id: scroll
         clip: true
 
-        ColumnLayout {
+        GridLayout {
             id: column
             width: scroll.availableWidth
-            spacing: Kirigami.Units.smallSpacing
+            columns: full.wideLayout ? 2 : 1
+            columnSpacing: Kirigami.Units.smallSpacing
+            rowSpacing: Kirigami.Units.smallSpacing
 
             PlasmaExtras.PlaceholderMessage {
                 Layout.fillWidth: true
+                Layout.columnSpan: full.wideLayout ? 2 : 1
                 visible: !root.hasSnapshot
                 iconName: root.stateIcon(root.dashboardState)
                 text: root.stateText(root.dashboardState)
                 explanation: root.lastError || i18n("Waiting for a status response from jotta-cli.")
+            }
+
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.columnSpan: full.wideLayout ? 2 : 1
+                visible: root.hasSnapshot
+                implicitHeight: overviewGrid.implicitHeight + Kirigami.Units.largeSpacing * 2
+                radius: Kirigami.Units.smallSpacing
+                color: Kirigami.Theme.backgroundColor
+                border.color: Kirigami.Theme.disabledTextColor
+                border.width: 1
+
+                GridLayout {
+                    id: overviewGrid
+                    anchors.fill: parent
+                    anchors.margins: Kirigami.Units.largeSpacing
+                    columns: full.wideLayout ? 2 : 1
+                    columnSpacing: Kirigami.Units.largeSpacing
+                    rowSpacing: Kirigami.Units.smallSpacing
+
+                    ColumnLayout {
+                        Layout.fillWidth: true
+
+                        PlasmaComponents.Label {
+                            Layout.fillWidth: true
+                            text: i18n("Storage used")
+                            font: Kirigami.Theme.smallFont
+                            opacity: 0.75
+                        }
+
+                        PlasmaComponents.Label {
+                            Layout.fillWidth: true
+                            text: root.storageSummaryWithPercent()
+                            font.weight: Font.DemiBold
+                            elide: Text.ElideRight
+                        }
+
+                        QQC2.ProgressBar {
+                            Layout.fillWidth: true
+                            visible: Format.formatPercent(root.snapshot.storage.usedBytes,
+                                                          root.snapshot.storage.capacityBytes) !== null
+                            from: 0
+                            to: 1
+                            value: {
+                                const ratio = Format.formatPercent(root.snapshot.storage.usedBytes,
+                                                                   root.snapshot.storage.capacityBytes);
+                                return ratio === null ? 0 : ratio;
+                            }
+                        }
+                    }
+
+                    ColumnLayout {
+                        Layout.fillWidth: true
+
+                        PlasmaComponents.Label {
+                            Layout.fillWidth: true
+                            text: i18n("Sync status")
+                            font: Kirigami.Theme.smallFont
+                            opacity: 0.75
+                        }
+
+                        PlasmaComponents.Label {
+                            Layout.fillWidth: true
+                            text: root.stateText(root.dashboardState)
+                            font.weight: Font.DemiBold
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            visible: root.hasActiveTransfer("upload")
+
+                            Kirigami.Icon {
+                                source: "upload"
+                                implicitWidth: Kirigami.Units.iconSizes.small
+                                implicitHeight: implicitWidth
+                            }
+                            PlasmaComponents.Label {
+                                Layout.fillWidth: true
+                                text: root.transferSummaryText("upload")
+                                elide: Text.ElideMiddle
+                            }
+                        }
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            visible: root.hasActiveTransfer("download")
+
+                            Kirigami.Icon {
+                                source: "download"
+                                implicitWidth: Kirigami.Units.iconSizes.small
+                                implicitHeight: implicitWidth
+                            }
+                            PlasmaComponents.Label {
+                                Layout.fillWidth: true
+                                text: root.transferSummaryText("download")
+                                elide: Text.ElideMiddle
+                            }
+                        }
+
+                        PlasmaComponents.Label {
+                            Layout.fillWidth: true
+                            visible: !root.hasActiveTransfer("upload") &&
+                                     !root.hasActiveTransfer("download")
+                            text: i18n("No active transfers")
+                            font: Kirigami.Theme.smallFont
+                            opacity: 0.75
+                        }
+                    }
+                }
             }
 
             DashboardSection {
@@ -123,9 +242,10 @@ PlasmaExtras.Representation {
 
             DashboardSection {
                 Layout.fillWidth: true
+                Layout.columnSpan: 1
                 title: i18n("Storage")
                 iconName: "drive-harddisk"
-                summary: root.storageSummary()
+                summary: root.storageSummaryWithPercent()
                 expanded: true
 
                 RowLayout {
@@ -135,7 +255,7 @@ PlasmaExtras.Representation {
                         text: i18n("Used")
                     }
                     PlasmaComponents.Label {
-                        text: root.storageSummary()
+                        text: root.storageSummaryWithPercent()
                         font.weight: Font.DemiBold
                     }
                 }
@@ -164,6 +284,7 @@ PlasmaExtras.Representation {
 
             DashboardSection {
                 Layout.fillWidth: true
+                Layout.columnSpan: 1
                 title: i18n("Sync")
                 iconName: "folder-sync"
                 summary: root.stateText(root.dashboardState)
@@ -244,6 +365,7 @@ PlasmaExtras.Representation {
 
             DashboardSection {
                 Layout.fillWidth: true
+                Layout.columnSpan: 1
                 title: i18n("Transfers")
                 iconName: "go-next"
                 summary: root.detailsLoading ? i18n("Loading") : ""
@@ -290,6 +412,7 @@ PlasmaExtras.Representation {
 
             DashboardSection {
                 Layout.fillWidth: true
+                Layout.columnSpan: 1
                 title: i18n("Backups")
                 iconName: "folder-documents"
                 summary: i18nc("%1 is a folder count", "%1 folders", root.snapshot.backups.length)
@@ -340,6 +463,7 @@ PlasmaExtras.Representation {
 
             DashboardSection {
                 Layout.fillWidth: true
+                Layout.columnSpan: 1
                 title: i18n("Recent activity")
                 iconName: "view-list-details"
                 summary: root.snapshot.activity.length > 0
@@ -370,6 +494,7 @@ PlasmaExtras.Representation {
 
             DashboardSection {
                 Layout.fillWidth: true
+                Layout.columnSpan: full.wideLayout ? 2 : 1
                 visible: root.snapshot.errors.length > 0 || root.lastError.length > 0
                 title: i18n("Errors")
                 iconName: "dialog-error"

@@ -4,6 +4,7 @@ import QtQuick
 import org.kde.plasma.plasmoid
 import org.kde.plasma.core as PlasmaCore
 import org.kde.notification
+import org.kde.kirigami as Kirigami
 
 import "../code/cli.mjs" as Cli
 import "../code/status.mjs" as Status
@@ -34,7 +35,29 @@ PlasmoidItem {
     readonly property int pollMs: Math.max(10, Number(plasmoid.configuration.refreshIntervalSeconds)) * 1000
     readonly property int recentLimit: Math.max(1, Number(plasmoid.configuration.recentEntries))
     readonly property bool commandBusy: transport.busy
+    readonly property bool desktopFormFactor: Plasmoid.formFactor === PlasmaCore.Types.Planar
+    readonly property bool detailsVisible: expanded || desktopFormFactor
+    readonly property bool compactStorageEnabled: plasmoid.configuration.showCompactStorage !== false
+    readonly property bool compactTransfersEnabled: plasmoid.configuration.showCompactTransfers !== false
+    readonly property string brandIconName: "io.github.oal.jottacloud-kde"
+    readonly property url brandIconSource: Qt.resolvedUrl("../icons/io.github.oal.jottacloud-kde.svg")
     readonly property string webUrl: plasmoid.configuration.webUrl || "https://www.jottacloud.com/web/secure"
+
+    Binding {
+        target: root
+        property: "width"
+        when: root.desktopFormFactor
+        value: Kirigami.Units.gridUnit * 16
+        restoreMode: Binding.RestoreBinding
+    }
+
+    Binding {
+        target: root
+        property: "height"
+        when: root.desktopFormFactor
+        value: Kirigami.Units.gridUnit * 28
+        restoreMode: Binding.RestoreBinding
+    }
 
     property QtObject transport: CliTransport {
         executable: root.cliExecutable
@@ -44,7 +67,7 @@ PlasmoidItem {
         }
     }
 
-    preferredRepresentation: compactRepresentation
+    preferredRepresentation: root.desktopFormFactor ? fullRepresentation : compactRepresentation
     compactRepresentation: CompactRepresentation {}
     fullRepresentation: FullRepresentation {}
 
@@ -77,8 +100,8 @@ PlasmoidItem {
         function onRefreshIntervalSecondsChanged() { pollTimer.restart() }
     }
 
-    onExpandedChanged: {
-        if (expanded) {
+    onDetailsVisibleChanged: {
+        if (detailsVisible) {
             root.refresh();
             root.requestDetails();
         }
@@ -106,7 +129,7 @@ PlasmoidItem {
     }
 
     function requestDetails() {
-        if (!expanded || transport.busy)
+        if (!detailsVisible || transport.busy)
             return;
         detailQueue = [Cli.OPERATION.UPLOADS, Cli.OPERATION.DOWNLOADS, Cli.OPERATION.ACTIVITY];
         detailError = "";
@@ -204,7 +227,7 @@ PlasmoidItem {
         else if (lastError)
             notifyError(dashboardState, lastError);
 
-        if (expanded)
+        if (detailsVisible)
             requestDetails();
     }
 
@@ -334,6 +357,54 @@ PlasmoidItem {
         return `${used} / ${capacity}`;
     }
 
+    function storagePercentageText() {
+        const ratio = Format.formatPercent(snapshot.storage.usedBytes,
+                                           snapshot.storage.capacityBytes);
+        return ratio === null ? "" : `${Math.round(ratio * 100)}%`;
+    }
+
+    function compactStorageText() {
+        return Format.formatCompactStorage(snapshot.storage.usedBytes,
+                                           snapshot.storage.capacityBytes);
+    }
+
+    function storageSummaryWithPercent() {
+        const percentage = storagePercentageText();
+        return percentage ? `${storageSummary()} (${percentage})` : storageSummary();
+    }
+
+    function activeTransfer(direction) {
+        return direction === "upload" ? snapshot.sync.upload : snapshot.sync.download;
+    }
+
+    function hasActiveTransfer(direction) {
+        return activeTransfer(direction) !== null;
+    }
+
+    function transferSummaryText(direction) {
+        const transfer = activeTransfer(direction);
+        if (!transfer)
+            return "";
+        const action = direction === "upload" ? i18n("Uploading") : i18n("Downloading");
+        const name = transfer.name || transfer.path;
+        const rate = Format.formatRate(transfer.rateBytesPerSecond);
+        const details = [];
+        if (name)
+            details.push(name);
+        if (rate)
+            details.push(rate);
+        return details.length > 0 ? `${action}: ${details.join(" - ")}` : action;
+    }
+
+    function transferTooltipText() {
+        const transfers = [];
+        if (hasActiveTransfer("upload"))
+            transfers.push(transferSummaryText("upload"));
+        if (hasActiveTransfer("download"))
+            transfers.push(transferSummaryText("download"));
+        return transfers.length > 0 ? transfers.join("\n") : i18n("No active transfers");
+    }
+
     function openSyncFolder() {
         const url = Format.fileUrl(snapshot.sync.rootPath);
         if (url)
@@ -348,7 +419,7 @@ PlasmoidItem {
         id: errorNotification
         componentName: "plasma_workspace"
         eventId: "notification"
-        iconName: "jottacloud"
+        iconName: root.brandIconName
         title: i18n("Jottacloud status")
         urgency: Notification.NormalUrgency
     }

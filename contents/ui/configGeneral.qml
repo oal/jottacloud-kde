@@ -12,6 +12,8 @@ KCM.SimpleKCM {
     property alias cfg_cliExecutable: cliExecutable.text
     property alias cfg_refreshIntervalSeconds: refreshInterval.value
     property alias cfg_showAccountDevice: showAccountDevice.checked
+    property alias cfg_showCompactStorage: showCompactStorage.checked
+    property alias cfg_showCompactTransfers: showCompactTransfers.checked
     property alias cfg_recentEntries: recentEntries.value
     property alias cfg_notificationsEnabled: notificationsEnabled.checked
     property alias cfg_webUrl: webUrl.text
@@ -73,6 +75,18 @@ KCM.SimpleKCM {
             id: showAccountDevice
             Kirigami.FormData.label: i18n("Account section:")
             text: i18n("Show account and device information")
+        }
+
+        QQC2.CheckBox {
+            id: showCompactStorage
+            Kirigami.FormData.label: i18n("Panel storage:")
+            text: i18n("Show storage usage when the panel has enough space")
+        }
+
+        QQC2.CheckBox {
+            id: showCompactTransfers
+            Kirigami.FormData.label: i18n("Panel transfers:")
+            text: i18n("Show upload and download indicators while active")
         }
 
         QQC2.CheckBox {
