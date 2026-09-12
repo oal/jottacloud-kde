@@ -188,12 +188,6 @@ li code,
     text-decoration: none;
 }
 
-.brand-icon {
-    width: 24px;
-    height: 24px;
-    flex: none;
-}
-
 .nav {
     display: flex;
     gap: 2px;
@@ -1069,32 +1063,7 @@ li code,
         gap: 44px;
     }
 
-.notice {
-    background: var(--bg-sunken);
-    border-bottom: 1px solid var(--border);
-}
-
-.notice-inner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 9px;
-    padding: 9px 22px;
-}
-
-.notice-inner svg {
-    flex: none;
-    color: var(--muted);
-}
-
-.notice-inner p {
-    font-size: 13px;
-    line-height: 1.5;
-    color: var(--muted);
-    text-align: center;
-}
-
-.hero {
+    .hero {
         padding: 54px 0 64px;
     }
 
