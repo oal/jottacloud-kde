@@ -21,9 +21,11 @@
       <label>Show account and device information</label>
       <default>true</default>
     </entry>
-    <entry name="showCompactStorage" type="Bool">
-      <label>Show storage usage in the compact panel view</label>
-      <default>true</default>
+    <entry name="compactDisplayMode" type="Int">
+      <label>Compact panel display mode</label>
+      <default>2</default>
+      <min>0</min>
+      <max>2</max>
     </entry>
     <entry name="showCompactTransfers" type="Bool">
       <label>Show active transfer indicators in the compact panel view</label>
@@ -38,10 +40,6 @@
     <entry name="notificationsEnabled" type="Bool">
       <label>Notify about meaningful errors</label>
       <default>true</default>
-    </entry>
-    <entry name="webUrl" type="String">
-      <label>Jottacloud web page</label>
-      <default>https://www.jottacloud.com/web/secure</default>
     </entry>
   </group>
 </kcfg>

@@ -38,6 +38,35 @@ PlasmaExtras.Representation {
         return parts.join(" - ");
     }
 
+    function activityTime(item) {
+        const timestamp = Number(item.at);
+        if (!isFinite(timestamp) || timestamp <= 0)
+            return "";
+        const date = new Date(timestamp);
+        const now = new Date();
+        const time = Qt.formatTime(date, "HH:mm:ss");
+        return date.getFullYear() === now.getFullYear() &&
+            date.getMonth() === now.getMonth() && date.getDate() === now.getDate()
+            ? time : `${Qt.formatDate(date, Qt.locale(), Locale.ShortFormat)} ${time}`;
+    }
+
+    function transferSectionSummary() {
+        if (root.detailsLoading)
+            return i18n("Loading");
+        if (root.transferError)
+            return i18n("Needs attention");
+        const count = root.snapshot.transfers.uploads.length +
+            root.snapshot.transfers.downloads.length;
+        return count > 0 ? i18np("%1 transfer", "%1 transfers", count) : i18n("None");
+    }
+
+    function errorSectionSummary() {
+        if (root.lastError)
+            return i18n("Needs attention");
+        const count = root.snapshot.errors.length;
+        return count > 0 ? i18np("%1 error", "%1 errors", count) : "";
+    }
+
     header: PlasmaExtras.PlasmoidHeading {
         contentItem: RowLayout {
             spacing: Kirigami.Units.smallSpacing
@@ -105,115 +134,6 @@ PlasmaExtras.Representation {
                 iconName: root.stateIcon(root.dashboardState)
                 text: root.stateText(root.dashboardState)
                 explanation: root.lastError || i18n("Waiting for a status response from jotta-cli.")
-            }
-
-            Rectangle {
-                Layout.fillWidth: true
-                Layout.columnSpan: full.wideLayout ? 2 : 1
-                visible: root.hasSnapshot
-                implicitHeight: overviewGrid.implicitHeight + Kirigami.Units.largeSpacing * 2
-                radius: Kirigami.Units.smallSpacing
-                color: Kirigami.Theme.backgroundColor
-                border.color: Kirigami.Theme.disabledTextColor
-                border.width: 1
-
-                GridLayout {
-                    id: overviewGrid
-                    anchors.fill: parent
-                    anchors.margins: Kirigami.Units.largeSpacing
-                    columns: full.wideLayout ? 2 : 1
-                    columnSpacing: Kirigami.Units.largeSpacing
-                    rowSpacing: Kirigami.Units.smallSpacing
-
-                    ColumnLayout {
-                        Layout.fillWidth: true
-
-                        PlasmaComponents.Label {
-                            Layout.fillWidth: true
-                            text: i18n("Storage used")
-                            font: Kirigami.Theme.smallFont
-                            opacity: 0.75
-                        }
-
-                        PlasmaComponents.Label {
-                            Layout.fillWidth: true
-                            text: root.storageSummaryWithPercent()
-                            font.weight: Font.DemiBold
-                            elide: Text.ElideRight
-                        }
-
-                        QQC2.ProgressBar {
-                            Layout.fillWidth: true
-                            visible: Format.formatPercent(root.snapshot.storage.usedBytes,
-                                                          root.snapshot.storage.capacityBytes) !== null
-                            from: 0
-                            to: 1
-                            value: {
-                                const ratio = Format.formatPercent(root.snapshot.storage.usedBytes,
-                                                                   root.snapshot.storage.capacityBytes);
-                                return ratio === null ? 0 : ratio;
-                            }
-                        }
-                    }
-
-                    ColumnLayout {
-                        Layout.fillWidth: true
-
-                        PlasmaComponents.Label {
-                            Layout.fillWidth: true
-                            text: i18n("Sync status")
-                            font: Kirigami.Theme.smallFont
-                            opacity: 0.75
-                        }
-
-                        PlasmaComponents.Label {
-                            Layout.fillWidth: true
-                            text: root.stateText(root.dashboardState)
-                            font.weight: Font.DemiBold
-                        }
-
-                        RowLayout {
-                            Layout.fillWidth: true
-                            visible: root.hasActiveTransfer("upload")
-
-                            Kirigami.Icon {
-                                source: "upload"
-                                implicitWidth: Kirigami.Units.iconSizes.small
-                                implicitHeight: implicitWidth
-                            }
-                            PlasmaComponents.Label {
-                                Layout.fillWidth: true
-                                text: root.transferSummaryText("upload")
-                                elide: Text.ElideMiddle
-                            }
-                        }
-
-                        RowLayout {
-                            Layout.fillWidth: true
-                            visible: root.hasActiveTransfer("download")
-
-                            Kirigami.Icon {
-                                source: "download"
-                                implicitWidth: Kirigami.Units.iconSizes.small
-                                implicitHeight: implicitWidth
-                            }
-                            PlasmaComponents.Label {
-                                Layout.fillWidth: true
-                                text: root.transferSummaryText("download")
-                                elide: Text.ElideMiddle
-                            }
-                        }
-
-                        PlasmaComponents.Label {
-                            Layout.fillWidth: true
-                            visible: !root.hasActiveTransfer("upload") &&
-                                     !root.hasActiveTransfer("download")
-                            text: i18n("No active transfers")
-                            font: Kirigami.Theme.smallFont
-                            opacity: 0.75
-                        }
-                    }
-                }
             }
 
             DashboardSection {
@@ -368,7 +288,7 @@ PlasmaExtras.Representation {
                 Layout.columnSpan: 1
                 title: i18n("Transfers")
                 iconName: "go-next"
-                summary: root.detailsLoading ? i18n("Loading") : ""
+                summary: full.transferSectionSummary()
                 expanded: false
 
                 PlasmaComponents.Label {
@@ -482,12 +402,24 @@ PlasmaExtras.Representation {
                 }
                 Repeater {
                     model: root.snapshot.activity.slice(0, root.recentLimit)
-                    delegate: PlasmaComponents.Label {
+                    delegate: RowLayout {
                         required property var modelData
                         Layout.fillWidth: true
-                        text: modelData.message
-                        elide: Text.ElideMiddle
-                        font: Kirigami.Theme.smallFont
+                        spacing: Kirigami.Units.smallSpacing
+
+                        PlasmaComponents.Label {
+                            Layout.preferredWidth: activityTimeMetrics.width
+                            visible: text.length > 0
+                            text: full.activityTime(modelData)
+                            font: Kirigami.Theme.smallFont
+                            opacity: 0.7
+                        }
+
+                        PlasmaComponents.Label {
+                            Layout.fillWidth: true
+                            text: modelData.message
+                            elide: Text.ElideMiddle
+                        }
                     }
                 }
             }
@@ -498,7 +430,7 @@ PlasmaExtras.Representation {
                 visible: root.snapshot.errors.length > 0 || root.lastError.length > 0
                 title: i18n("Errors")
                 iconName: "dialog-error"
-                summary: root.lastError ? i18n("Needs attention") : ""
+                summary: full.errorSectionSummary()
                 expanded: root.lastError.length > 0
 
                 PlasmaComponents.Label {
@@ -521,6 +453,12 @@ PlasmaExtras.Representation {
                 }
             }
         }
+    }
+
+    TextMetrics {
+        id: activityTimeMetrics
+        text: "00:00:00"
+        font: Kirigami.Theme.smallFont
     }
 
     footer: PlasmaExtras.PlasmoidHeading {

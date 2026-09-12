@@ -6,6 +6,18 @@ allows, and uses an expanded dashboard on the desktop. The dashboard covers
 account/device, storage, sync, transfers, read-only backups, activity, and
 errors.
 
+## Screenshots
+
+The compact panel view shows the current status at a glance. Click it to open
+the expanded dashboard, where the sections can be opened for more detail. The
+configuration page controls the panel display mode and other widget options.
+
+![Compact panel status](screenshots/status.png)
+
+![Expanded dashboard](screenshots/expanded.png)
+
+![Widget settings](screenshots/settings.png)
+
 ## Requirements
 
 - Plasma 6 with `kpackagetool6`, `plasmawindowed`, and the
@@ -53,11 +65,12 @@ jotta-cli status --json
 The widget reports a missing executable or daemon as unavailable/offline and
 keeps the last good dashboard snapshot when possible.
 
-The configuration page can hide compact-panel storage usage or active transfer
-indicators. Storage uses binary units such as `GiB`; the expanded dashboard
-shows both used/capacity and a percentage when the account reports a finite
-capacity. The install script also registers the packaged Jottacloud mark in the
-user icon theme so it can be used by Plasma's Add Widgets view.
+The configuration page can set the compact panel to logo only, logo plus
+percentage, or percentage plus size and sync status, and can hide active
+transfer indicators. Storage uses binary units such as `GiB`; the expanded
+dashboard shows both used/capacity and a percentage when the account reports a
+finite capacity. The install script also registers the packaged Jottacloud mark
+in the user icon theme so it can be used by Plasma's Add Widgets view.
 
 ## Development
 

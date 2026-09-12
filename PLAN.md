@@ -36,12 +36,13 @@ packaging and implementation patterns.
   - paused
   - error/offline
 - The icon and tooltip will communicate state without relying on color alone.
-- The compact view automatically adds storage usage when panel space allows and
-  shows upload/download indicators only while transfers are active.
+- The compact view can show only the logo, the logo plus a percentage, or the
+  full percentage/size/status summary, and shows upload/download indicators
+  only while transfers are active.
 
 ### Popup dashboard
 
-The popup will use a summary-first layout with expandable sections:
+The popup will use a current-status header with expandable detail sections:
 
 - Account and device information.
 - Storage usage and capacity, including a visual usage bar and readable values.
@@ -405,9 +406,9 @@ this plan:
 
 - New standalone Plasma 6 widget in `jottacloud-kde`.
 - Full read-only dashboard, with sync-only pause/resume controls.
-- Automatic compact panel summary, with configurable storage and transfer
-  indicators.
-- Summary-first popup with expandable sections.
+- Configurable compact panel display, with logo-only, percentage, and full
+  storage/status modes plus transfer indicators.
+- Current-status popup header with expandable sections.
 - English and Norwegian Bokmal.
 - Native and container-backed CLI support where practical.
 - QML-first implementation with a narrowly scoped helper fallback if required.

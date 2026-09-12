@@ -38,6 +38,14 @@ test('parseActivity accepts the text output of sync log', () => {
     assert.deepEqual(parseActivity('[{"message":"json event"}]')[0], { message: 'json event' });
 });
 
+test('parseActivity makes sync log rows readable', () => {
+    const [item] = parseActivity(
+        '2026-09-12 12:28:06.795 +0200 CEST :: Download /3D printing/photo.blend\n');
+    assert.equal(item.message, 'Downloaded /3D printing/photo.blend');
+    assert.equal(item.at, '2026-09-12T12:28:06.795+0200');
+    assert.equal(item.state, 'download');
+});
+
 test('command failures are classified for user-facing state', () => {
     assert.equal(resultError({ exitCode: 127, stderr: 'not found' }).kind, 'unavailable');
     assert.equal(resultError({ exitCode: 1, stderr: 'connection refused' }).kind, 'offline');

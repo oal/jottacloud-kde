@@ -102,7 +102,26 @@ export function parseActivity(stdout) {
     return trimmed.split(/\r?\n/)
         .map((line) => line.trim())
         .filter((line) => line.length > 0)
-        .map((message) => ({ message, at: null, state: 'unknown' }));
+        .map(parseActivityLine);
+}
+
+function parseActivityLine(line) {
+    const match = line.match(/^(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2}:\d{2}(?:\.\d+)?)\s+([+-]\d{4})?\s*(?:[A-Z]{2,5})?\s*::\s*(\S+)(?:\s+(.*))?$/);
+    if (!match)
+        return { message: line, at: null, state: 'unknown' };
+
+    const action = match[4];
+    const verbs = {
+        delete: 'Deleted',
+        download: 'Downloaded',
+        move: 'Moved',
+        remove: 'Removed',
+        rename: 'Renamed',
+        upload: 'Uploaded',
+    };
+    const message = `${verbs[action.toLowerCase()] || action}${match[5] ? ` ${match[5]}` : ''}`;
+    const at = `${match[1]}T${match[2]}${match[3] || ''}`;
+    return { message, at, state: action.toLowerCase() };
 }
 
 export function resultError({ exitCode, stderr = '', stdout = '' } = {}) {

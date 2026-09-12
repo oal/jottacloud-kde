@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: MPL-2.0 */
 
 import QtQuick
-import QtQuick.Controls as QQC2
 import QtQuick.Layouts
 import org.kde.plasma.core as PlasmaCore
 import org.kde.plasma.components as PlasmaComponents
@@ -20,7 +19,9 @@ MouseArea {
     readonly property bool summaryRequested: root.compactStorageEnabled || root.compactTransfersEnabled
     readonly property bool showSummary: horizontal && summaryRequested && width >= summaryWidth
     readonly property bool showStorage: showSummary && root.compactStorageEnabled &&
-                                       root.compactStorageText().length > 0
+                                       (root.compactStorageDisplayText().length > 0 ||
+                                        root.compactStorageDetailsEnabled)
+    readonly property bool showStorageDetails: showStorage && root.compactStorageDetailsEnabled
     readonly property bool showTransfers: showSummary && root.compactTransfersEnabled &&
                                          (root.hasActiveTransfer("upload") ||
                                           root.hasActiveTransfer("download"))
@@ -35,10 +36,14 @@ MouseArea {
 
     function preferredSummaryWidth() {
         let width = compactSize;
-        const storageText = root.compactStorageText();
-        if (root.compactStorageEnabled && storageText.length > 0) {
+        const storageText = root.compactStorageDisplayText();
+        if (root.compactStorageEnabled && (storageText.length > 0 ||
+                                           root.compactStorageDetailsEnabled)) {
+            const storageWidth = root.compactStorageDetailsEnabled
+                ? Math.max(storageMetrics.width, stateMetrics.width)
+                : percentageMetrics.width;
             width += Kirigami.Units.smallSpacing +
-                Math.max(storageMetrics.width, stateMetrics.width);
+                storageWidth;
         }
         if (root.compactTransfersEnabled) {
             const transferCount = (root.hasActiveTransfer("upload") ? 1 : 0) +
@@ -59,7 +64,7 @@ MouseArea {
     activeFocusOnTab: true
 
     Accessible.role: Accessible.Button
-    Accessible.name: root.toolTipMainText
+    Accessible.name: i18n("Jottacloud status")
     Accessible.description: root.tooltipText() + " - " + root.storageSummary()
 
     onClicked: (mouse) => {
@@ -130,7 +135,7 @@ MouseArea {
 
             PlasmaComponents.Label {
                 Layout.fillWidth: true
-                text: root.compactStorageText()
+                text: root.compactStorageDisplayText()
                 font.weight: Font.DemiBold
                 elide: Text.ElideRight
             }
@@ -139,6 +144,7 @@ MouseArea {
                 Layout.fillWidth: true
                 text: root.stateText(root.dashboardState)
                 font: Kirigami.Theme.smallFont
+                visible: compact.showStorageDetails
                 opacity: 0.75
                 elide: Text.ElideRight
             }
@@ -179,7 +185,9 @@ MouseArea {
         font: Kirigami.Theme.smallFont
     }
 
-    QQC2.ToolTip.visible: compact.containsMouse
-    QQC2.ToolTip.text: root.tooltipText() + "\n" + root.storageSummary() + "\n" +
-                       root.transferTooltipText()
+    TextMetrics {
+        id: percentageMetrics
+        text: root.storagePercentageText()
+        font: Kirigami.Theme.defaultFont
+    }
 }

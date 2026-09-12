@@ -99,17 +99,19 @@ msgstr "Laster inn overføringsinformasjon..."
 msgid "No active transfers"
 msgstr "Ingen aktive overføringer"
 
+msgid "None"
+msgstr "Ingen"
+
+msgid "%1 transfer"
+msgid_plural "%1 transfers"
+msgstr[0] "%1 overføring"
+msgstr[1] "%1 overføringer"
+
 msgid "Uploading"
 msgstr "Laster opp"
 
 msgid "Downloading"
 msgstr "Laster ned"
-
-msgid "Storage used"
-msgstr "Brukt lagring"
-
-msgid "Sync status"
-msgstr "Synkroniseringsstatus"
 
 msgid "No backup folders reported"
 msgstr "Ingen sikkerhetskopimapper rapportert"
@@ -172,11 +174,20 @@ msgstr "Oversikt"
 msgid "Account section:"
 msgstr "Kontoseksjon:"
 
+msgid "Compact panel display mode"
+msgstr "Visningsmodus for kompakt panel"
+
 msgid "Panel storage:"
 msgstr "Panel-lagring:"
 
-msgid "Show storage usage when the panel has enough space"
-msgstr "Vis lagringsbruk når panelet har nok plass"
+msgid "Logo only"
+msgstr "Bare logo"
+
+msgid "Logo + percentage"
+msgstr "Logo + prosent"
+
+msgid "Percentage + size + status"
+msgstr "Prosent + størrelse + status"
 
 msgid "Panel transfers:"
 msgstr "Panel-overføringer:"
@@ -192,12 +203,6 @@ msgstr "Varsle når CLI-en eller synkroniseringen går inn i en feiltilstand"
 
 msgid "Normal upload and download progress never creates a notification. Repeated copies of the same error are suppressed."
 msgstr "Vanlig opplastings- og nedlastingsfremdrift lager aldri varsler. Gjentatte kopier av samme feil undertrykkes."
-
-msgid "Links"
-msgstr "Lenker"
-
-msgid "Web page:"
-msgstr "Nettside:"
 
 msgctxt "%1 is a local time"
 msgid "Updated %1"
@@ -230,6 +235,11 @@ msgstr "%1 mapper"
 msgctxt "%1 is an entry count"
 msgid "%1 entries"
 msgstr "%1 oppføringer"
+
+msgid "%1 error"
+msgid_plural "%1 errors"
+msgstr[0] "%1 feil"
+msgstr[1] "%1 feil"
 
 msgctxt "%1 files, %2 backup state"
 msgid "%1 files - %2"

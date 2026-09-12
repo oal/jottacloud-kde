@@ -37,11 +37,15 @@ PlasmoidItem {
     readonly property bool commandBusy: transport.busy
     readonly property bool desktopFormFactor: Plasmoid.formFactor === PlasmaCore.Types.Planar
     readonly property bool detailsVisible: expanded || desktopFormFactor
-    readonly property bool compactStorageEnabled: plasmoid.configuration.showCompactStorage !== false
+    readonly property int compactDisplayMode: {
+        const mode = Number(plasmoid.configuration.compactDisplayMode);
+        return mode >= 0 && mode <= 2 ? Math.floor(mode) : 2;
+    }
+    readonly property bool compactStorageEnabled: compactDisplayMode > 0
+    readonly property bool compactStorageDetailsEnabled: compactDisplayMode > 1
     readonly property bool compactTransfersEnabled: plasmoid.configuration.showCompactTransfers !== false
     readonly property string brandIconName: "io.github.oal.jottacloud-kde"
     readonly property url brandIconSource: Qt.resolvedUrl("../icons/io.github.oal.jottacloud-kde.svg")
-    readonly property string webUrl: plasmoid.configuration.webUrl || "https://www.jottacloud.com/web/secure"
 
     Binding {
         target: root
@@ -71,8 +75,9 @@ PlasmoidItem {
     compactRepresentation: CompactRepresentation {}
     fullRepresentation: FullRepresentation {}
 
-    toolTipMainText: i18n("Jottacloud status")
-    toolTipSubText: root.tooltipText()
+    // Keep panel hover from opening a popup over the compact representation.
+    toolTipMainText: ""
+    toolTipSubText: ""
 
     Plasmoid.status: PlasmaCore.Types.ActiveStatus
 
@@ -368,6 +373,10 @@ PlasmoidItem {
                                            snapshot.storage.capacityBytes);
     }
 
+    function compactStorageDisplayText() {
+        return compactStorageDetailsEnabled ? compactStorageText() : storagePercentageText();
+    }
+
     function storageSummaryWithPercent() {
         const percentage = storagePercentageText();
         return percentage ? `${storageSummary()} (${percentage})` : storageSummary();
@@ -396,15 +405,6 @@ PlasmoidItem {
         return details.length > 0 ? `${action}: ${details.join(" - ")}` : action;
     }
 
-    function transferTooltipText() {
-        const transfers = [];
-        if (hasActiveTransfer("upload"))
-            transfers.push(transferSummaryText("upload"));
-        if (hasActiveTransfer("download"))
-            transfers.push(transferSummaryText("download"));
-        return transfers.length > 0 ? transfers.join("\n") : i18n("No active transfers");
-    }
-
     function openSyncFolder() {
         const url = Format.fileUrl(snapshot.sync.rootPath);
         if (url)
@@ -412,7 +412,7 @@ PlasmoidItem {
     }
 
     function openWeb() {
-        Qt.openUrlExternally(webUrl);
+        Qt.openUrlExternally("https://www.jottacloud.com/web/secure");
     }
 
     Notification {

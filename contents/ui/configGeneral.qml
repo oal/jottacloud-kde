@@ -12,11 +12,10 @@ KCM.SimpleKCM {
     property alias cfg_cliExecutable: cliExecutable.text
     property alias cfg_refreshIntervalSeconds: refreshInterval.value
     property alias cfg_showAccountDevice: showAccountDevice.checked
-    property alias cfg_showCompactStorage: showCompactStorage.checked
+    property alias cfg_compactDisplayMode: compactDisplayMode.currentIndex
     property alias cfg_showCompactTransfers: showCompactTransfers.checked
     property alias cfg_recentEntries: recentEntries.value
     property alias cfg_notificationsEnabled: notificationsEnabled.checked
-    property alias cfg_webUrl: webUrl.text
 
     Kirigami.FormLayout {
         anchors.fill: parent
@@ -77,10 +76,14 @@ KCM.SimpleKCM {
             text: i18n("Show account and device information")
         }
 
-        QQC2.CheckBox {
-            id: showCompactStorage
+        QQC2.ComboBox {
+            id: compactDisplayMode
             Kirigami.FormData.label: i18n("Panel storage:")
-            text: i18n("Show storage usage when the panel has enough space")
+            model: [
+                i18n("Logo only"),
+                i18n("Logo + percentage"),
+                i18n("Percentage + size + status")
+            ]
         }
 
         QQC2.CheckBox {
@@ -103,16 +106,5 @@ KCM.SimpleKCM {
             opacity: 0.75
         }
 
-        Kirigami.Separator {
-            Kirigami.FormData.label: i18n("Links")
-            Kirigami.FormData.isSection: true
-        }
-
-        QQC2.TextField {
-            id: webUrl
-            Kirigami.FormData.label: i18n("Web page:")
-            Layout.minimumWidth: Kirigami.Units.gridUnit * 18
-            selectByMouse: true
-        }
     }
 }
