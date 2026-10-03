@@ -26,7 +26,6 @@ PlasmoidItem {
     property bool detailsLoading: false
     property string activeCommand: ""
     property int activeRequestId: 0
-    property bool desiredPause: false
     property var detailQueue: []
     property string lastNotificationKey: ""
     property bool errorStatePinned: false
@@ -112,8 +111,6 @@ PlasmoidItem {
         }
     }
 
-    Component.onCompleted: root.refresh()
-
     function refresh() {
         if (transport.busy)
             return;
@@ -162,14 +159,13 @@ PlasmoidItem {
     function runPauseAction() {
         if (transport.busy || !hasSnapshot || !snapshot.sync.configured)
             return;
-        desiredPause = !snapshot.sync.paused;
         actionInFlight = true;
         activeCommand = Cli.OPERATION.SET_PAUSED;
-        activeRequestId = transport.run(Cli.argsFor(activeCommand, desiredPause));
+        activeRequestId = transport.run(Cli.argsFor(activeCommand, !snapshot.sync.paused));
     }
 
     function commandFinished(requestId, exitCode, stdout, stderr) {
-        if (!Cli.isCurrentRequest(requestId, activeRequestId))
+        if (transport.cancelled || !Cli.isCurrentRequest(requestId, activeRequestId))
             return;
 
         const command = activeCommand;
@@ -193,7 +189,6 @@ PlasmoidItem {
                 handleFailure(failure, false);
             } else {
                 recordDetailFailure(command, failure.message);
-                lastError = failure.message;
                 runNextDetail();
             }
             return;
@@ -212,7 +207,6 @@ PlasmoidItem {
             else {
                 const detailMessage = error.message || String(error);
                 recordDetailFailure(command, detailMessage);
-                lastError = detailMessage;
                 runNextDetail();
             }
         }

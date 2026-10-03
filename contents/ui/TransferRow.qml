@@ -34,20 +34,20 @@ ColumnLayout {
         }
 
         PlasmaComponents.Label {
-            text: row.transfer.progress === null
-                ? row.transfer.state : Format.formatProgress(row.transfer.progress)
+            text: row.transfer.progress == null
+                ? (row.transfer.state || "") : Format.formatProgress(row.transfer.progress)
             opacity: 0.75
         }
     }
 
     RowLayout {
         Layout.fillWidth: true
-        visible: row.transfer.totalBytes !== null || row.transfer.rateBytesPerSecond !== null
+        visible: row.transfer.totalBytes != null || row.transfer.rateBytesPerSecond != null
         spacing: Kirigami.Units.smallSpacing
 
         PlasmaComponents.Label {
             Layout.fillWidth: true
-            text: row.transfer.totalBytes === null ? "" :
+            text: row.transfer.totalBytes == null ? "" :
                 `${Format.formatBytes(row.transfer.transferredBytes)} / ${Format.formatBytes(row.transfer.totalBytes)}`
             font: Kirigami.Theme.smallFont
             opacity: 0.7
@@ -63,9 +63,9 @@ ColumnLayout {
 
     QQC2.ProgressBar {
         Layout.fillWidth: true
-        visible: row.transfer.progress !== null
+        visible: row.transfer.progress != null
         from: 0
         to: 1
-        value: row.transfer.progress === null ? 0 : row.transfer.progress
+        value: row.transfer.progress == null ? 0 : row.transfer.progress
     }
 }

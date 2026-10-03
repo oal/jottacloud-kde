@@ -23,6 +23,7 @@ QtObject {
     property string executable: "jotta-cli"
     property int timeoutMs: Cli.DEFAULT_TIMEOUT_MS
     property bool busy: false
+    property bool cancelled: false
     property int nextRequestId: 0
     property int activeRequestId: 0
     property string activeSource: ""
@@ -87,6 +88,7 @@ QtObject {
         if (busy || !Array.isArray(args))
             return 0;
         const sourceName = Cli.commandLine("/bin/sh", [helperPath, executable, ...args]);
+        cancelled = false;
         nextRequestId += 1;
         activeRequestId = nextRequestId;
         activeSource = sourceName;
@@ -104,6 +106,7 @@ QtObject {
     function cancel() {
         if (!busy)
             return;
+        cancelled = true;
         finish(-1, "", "jotta-cli request cancelled");
     }
 }

@@ -27,7 +27,8 @@ export function parseSize(value) {
     const text = String(value).trim();
     if (/^(unlimited|infinite|infinity|none|n\/a)$/i.test(text))
         return null;
-    const match = text.replace(',', '.').match(/^([0-9]+(?:\.[0-9]+)?)\s*([kmgtpe]?i?b)?(?:\/s)?$/i);
+    const normalized = text.replace(/,(?=\d{3}(?:\D|$))/g, '').replace(',', '.');
+    const match = normalized.match(/^([0-9]+(?:\.[0-9]+)?)\s*([kmgtpe]?i?b)?(?:\/s)?$/i);
     if (!match)
         return null;
     const amount = finite(match[1]);
@@ -84,7 +85,7 @@ export function formatCount(value) {
     const count = finite(value);
     if (count === null)
         return '-';
-    return Math.round(count).toLocaleString('en-US');
+    return Math.round(count).toLocaleString();
 }
 
 export function formatRate(bytesPerSecond) {

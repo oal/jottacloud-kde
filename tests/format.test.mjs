@@ -14,6 +14,8 @@ test('parseSize accepts binary and decimal CLI values', () => {
     assert.equal(parseSize({ bytes: 123 }), 123);
     assert.equal(parseSize('unlimited'), null);
     assert.equal(parseSize('not a size'), null);
+    assert.equal(parseSize('1,024 MiB'), 1024 * 1024 ** 2);
+    assert.equal(parseSize('1,5 GiB'), 1.5 * 1024 ** 3);
 });
 
 test('formatBytes selects readable binary units', () => {

@@ -4,12 +4,20 @@
 set -u
 
 missing=0
-for command in kpackagetool6 plasmawindowed qmllint node; do
+for command in kpackagetool6; do
     if command -v "$command" >/dev/null 2>&1; then
         printf 'ok      %s -> %s\n' "$command" "$(command -v "$command")"
     else
         printf 'missing %s\n' "$command"
         missing=1
+    fi
+done
+
+for command in plasmawindowed qmllint node; do
+    if command -v "$command" >/dev/null 2>&1; then
+        printf 'ok      %s -> %s\n' "$command" "$(command -v "$command")"
+    else
+        printf 'optional %s (only needed for testing and linting)\n' "$command"
     fi
 done
 

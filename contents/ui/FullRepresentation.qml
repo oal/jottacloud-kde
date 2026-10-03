@@ -19,11 +19,8 @@ PlasmaExtras.Representation {
     Layout.minimumHeight: Kirigami.Units.gridUnit * 15
     Layout.preferredWidth: Kirigami.Units.gridUnit * 16
     Layout.preferredHeight: Kirigami.Units.gridUnit * 28
-    Layout.maximumWidth: Kirigami.Units.gridUnit * 20
-    width: root.desktopFormFactor ? Kirigami.Units.gridUnit * 16
-                                  : Kirigami.Units.gridUnit * 16
-    height: root.desktopFormFactor ? Kirigami.Units.gridUnit * 32
-                                   : Kirigami.Units.gridUnit * 28
+    Layout.fillWidth: true
+    Layout.fillHeight: true
     collapseMarginsHint: true
 
     function syncFilesText() {
@@ -162,7 +159,6 @@ PlasmaExtras.Representation {
 
             DashboardSection {
                 Layout.fillWidth: true
-                Layout.columnSpan: 1
                 title: i18n("Storage")
                 iconName: "drive-harddisk"
                 summary: root.storageSummaryWithPercent()
@@ -204,7 +200,6 @@ PlasmaExtras.Representation {
 
             DashboardSection {
                 Layout.fillWidth: true
-                Layout.columnSpan: 1
                 title: i18n("Sync")
                 iconName: "folder-sync"
                 summary: root.stateText(root.dashboardState)
@@ -285,7 +280,6 @@ PlasmaExtras.Representation {
 
             DashboardSection {
                 Layout.fillWidth: true
-                Layout.columnSpan: 1
                 title: i18n("Transfers")
                 iconName: "go-next"
                 summary: full.transferSectionSummary()
@@ -332,7 +326,6 @@ PlasmaExtras.Representation {
 
             DashboardSection {
                 Layout.fillWidth: true
-                Layout.columnSpan: 1
                 title: i18n("Backups")
                 iconName: "folder-documents"
                 summary: i18nc("%1 is a folder count", "%1 folders", root.snapshot.backups.length)
@@ -383,7 +376,6 @@ PlasmaExtras.Representation {
 
             DashboardSection {
                 Layout.fillWidth: true
-                Layout.columnSpan: 1
                 title: i18n("Recent activity")
                 iconName: "view-list-details"
                 summary: root.snapshot.activity.length > 0

@@ -68,9 +68,11 @@ case "$ACTION" in
         exit 0
         ;;
     upgrade)
+        "$ROOT/tools/build-translations.sh"
         kpackagetool6 --type Plasma/Applet --upgrade "$ROOT"
         ;;
     auto)
+        "$ROOT/tools/build-translations.sh"
         if [[ -d "$INSTALLED" ]]; then
             kpackagetool6 --type Plasma/Applet --upgrade "$ROOT"
         else
